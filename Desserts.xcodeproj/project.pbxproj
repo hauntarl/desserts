@@ -12,13 +12,15 @@
 		FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */; };
 		FC6D2F272BA82578009C3867 /* DessertDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */; };
 		FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C372BA80AB600A3BA2A /* DessertsApp.swift */; };
-		FC811C3A2BA80AB600A3BA2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C392BA80AB600A3BA2A /* ContentView.swift */; };
+		FC811C3A2BA80AB600A3BA2A /* DessertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C392BA80AB600A3BA2A /* DessertsView.swift */; };
 		FC811C3C2BA80AB700A3BA2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */; };
 		FC811C3F2BA80AB700A3BA2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC811C3E2BA80AB700A3BA2A /* Preview Assets.xcassets */; };
 		FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC94FC5B2BA8537B00E60D24 /* NetworkManager.swift */; };
 		FC94FC602BA85A9F00E60D24 /* NetworkingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC94FC5F2BA85A9F00E60D24 /* NetworkingMock.swift */; };
 		FC94FC622BA85CB600E60D24 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC94FC612BA85CB600E60D24 /* Networking.swift */; };
 		FC94FC642BA85FC500E60D24 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC94FC632BA85FC500E60D24 /* NetworkManagerTests.swift */; };
+		FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC1B2BA8DF6100B8644B /* DessertsView-ViewModel.swift */; };
+		FCB7FC1E2BA8ED4F00B8644B /* DessertsView-ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC1D2BA8ED4F00B8644B /* DessertsView-ViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +40,7 @@
 		FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetailTests.swift; sourceTree = "<group>"; };
 		FC811C342BA80AB600A3BA2A /* Desserts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desserts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC811C372BA80AB600A3BA2A /* DessertsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsApp.swift; sourceTree = "<group>"; };
-		FC811C392BA80AB600A3BA2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FC811C392BA80AB600A3BA2A /* DessertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsView.swift; sourceTree = "<group>"; };
 		FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC811C3E2BA80AB700A3BA2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FC811C442BA80AB800A3BA2A /* DessertsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DessertsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +48,8 @@
 		FC94FC5F2BA85A9F00E60D24 /* NetworkingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingMock.swift; sourceTree = "<group>"; };
 		FC94FC612BA85CB600E60D24 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		FC94FC632BA85FC500E60D24 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
+		FCB7FC1B2BA8DF6100B8644B /* DessertsView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertsView-ViewModel.swift"; sourceTree = "<group>"; };
+		FCB7FC1D2BA8ED4F00B8644B /* DessertsView-ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertsView-ViewModelTests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +102,9 @@
 			children = (
 				FC94FC5A2BA8535400E60D24 /* Networking */,
 				FC6D2F1F2BA8130B009C3867 /* Models */,
+				FCB7FC192BA8DEBD00B8644B /* Views */,
+				FCB7FC1A2BA8DF3100B8644B /* ViewModels */,
 				FC811C372BA80AB600A3BA2A /* DessertsApp.swift */,
-				FC811C392BA80AB600A3BA2A /* ContentView.swift */,
 				FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */,
 				FC811C3D2BA80AB700A3BA2A /* Preview Content */,
 			);
@@ -120,6 +125,7 @@
 				FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */,
 				FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */,
 				FC94FC632BA85FC500E60D24 /* NetworkManagerTests.swift */,
+				FCB7FC1D2BA8ED4F00B8644B /* DessertsView-ViewModelTests.swift */,
 				FC94FC5F2BA85A9F00E60D24 /* NetworkingMock.swift */,
 			);
 			path = DessertsTests;
@@ -132,6 +138,22 @@
 				FC94FC5B2BA8537B00E60D24 /* NetworkManager.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		FCB7FC192BA8DEBD00B8644B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FC811C392BA80AB600A3BA2A /* DessertsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FCB7FC1A2BA8DF3100B8644B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FCB7FC1B2BA8DF6100B8644B /* DessertsView-ViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,10 +256,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC811C3A2BA80AB600A3BA2A /* ContentView.swift in Sources */,
+				FC811C3A2BA80AB600A3BA2A /* DessertsView.swift in Sources */,
 				FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */,
 				FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */,
 				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
+				FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */,
 				FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */,
 				FC94FC622BA85CB600E60D24 /* Networking.swift in Sources */,
 			);
@@ -251,6 +274,7 @@
 				FC94FC602BA85A9F00E60D24 /* NetworkingMock.swift in Sources */,
 				FC6D2F272BA82578009C3867 /* DessertDetailTests.swift in Sources */,
 				FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */,
+				FCB7FC1E2BA8ED4F00B8644B /* DessertsView-ViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
