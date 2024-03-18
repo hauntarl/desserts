@@ -11,10 +11,12 @@ import Foundation
  `DessertDetail` model is used to display result of querying Dessert Details from [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894)
  
  This model works under the assumption that the following fields are always have
- a valid value in the api response:
+ a valid value in the API response:
  - `strMeal`
- - `strMealThumb`
  - `strInstructions`
+ 
+ >NOTE: The basis for this assumption comes from analyzing the json response for
+ >provided API call.
  */
 public struct DessertDetail: Decodable, Equatable {
     public let name: String
@@ -63,11 +65,12 @@ public struct DessertDetail: Decodable, Equatable {
         self.name = try container.decode(String.self, forKey: .strMeal)
         // Assumption that instructions are always present
         self.instructions = try container.decode(String.self, forKey: .strInstructions)
-        // Assumption that thumbnail is always present
-        let thumbnailURL = try container.decode(String.self, forKey: .strMealThumb)
-        self.thumbnail = URL(string: thumbnailURL)
-
         self.area = try container.decodeIfPresent(String.self, forKey: .strArea)
+
+        // Parse the thumbnail string into Swift's URL object
+        let thumbnailURL = (try container.decodeIfPresent(String.self, forKey: .strMealThumb) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        self.thumbnail = URL(string: thumbnailURL)
         // Parse the youtube string into Swift's URL object
         let youtubeURL = (try container.decodeIfPresent(String.self, forKey: .strYoutube) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -77,7 +80,7 @@ public struct DessertDetail: Decodable, Equatable {
             .trimmingCharacters(in: .whitespacesAndNewlines)
         self.sourceLink = URL(string: sourceURL)
         
-        // Parse tags
+        // Parse tags into a list of string
         let tags = (try container.decodeIfPresent(String.self, forKey: .strTags) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         if !tags.isEmpty {
@@ -104,9 +107,7 @@ public struct DessertDetail: Decodable, Equatable {
             .sorted { $0.name < $1.name }
     }
     
-    /**
-     A custom initializer required for unit testing and mocking data for previews.
-     */
+    /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(
         name: String,
         thumbnail: URL?,
@@ -122,6 +123,7 @@ public struct DessertDetail: Decodable, Equatable {
         self.area = area
         self.tags = tags
         self.instructions = instructions
+        // Remove duplicate ingredients
         self.ingredients = Set(ingredients).map { $0 }.sorted { $0.name < $1.name }
         self.youtubeLink = youtubeLink
         self.sourceLink = sourceLink
@@ -131,16 +133,12 @@ public struct DessertDetail: Decodable, Equatable {
 /**
  Ingredient model is used to combine each ingredient with its corresponding measurement from
  the [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894) api call.
- 
- > NOTE: Ingredient needs a unique identifier as there is
  */
 public struct Ingredient: Decodable, Equatable, Hashable {
     public let name: String
     public let quantity: String
     
-    /**
-     A custom initializer required for unit testing and mocking data for previews.
-     */
+    /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(name: String, quantity: String) {
         self.name = name
         self.quantity = quantity
@@ -167,9 +165,7 @@ public struct Ingredient: Decodable, Equatable, Hashable {
 public struct DessertDetailResult: Decodable, Equatable {
     public let meals: [DessertDetail]
     
-    /**
-     A custom initializer required for unit testing and mocking data for previews.
-     */
+    /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(meals: [DessertDetail]) {
         self.meals = meals
     }
