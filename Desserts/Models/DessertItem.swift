@@ -10,8 +10,8 @@ import Foundation
 /**
  `DessertItem` model is used to display result of querying Desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)
  
- This model works under the assumption that the following fields are always have
- a valid value in the API response:
+ This model works under the assumption that the following fields always have a
+ valid value in the API response:
  - `idMeal`
  - `strMeal`
  
