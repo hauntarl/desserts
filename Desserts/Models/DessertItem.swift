@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- `DessertItem` model is used to display result of querying Desserts from [themealdb.com](`https://themealdb.com/api/json/v1/1/filter.php?c=Dessert`)
+ `DessertItem` model is used to display result of querying Desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)
  
  This model works under the assumption that the following fields are always have
  a valid value in the API response:
@@ -56,7 +56,7 @@ public struct DessertItem: Decodable, Identifiable, Equatable {
 
 /**
  `DessertItemResult` is a wrapper model required to correctly represent the structure of json
- response from the [themealdb.com](`https://themealdb.com/api/json/v1/1/filter.php?c=Dessert`)
+ response from the [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)
  api to fetch the list of all the desserts.
  */
 public struct DessertItemResult: Decodable, Equatable {
