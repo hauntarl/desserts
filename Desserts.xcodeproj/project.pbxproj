@@ -10,11 +10,11 @@
 		FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F202BA813B6009C3867 /* DessertDetail.swift */; };
 		FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F222BA816E8009C3867 /* DessertItem.swift */; };
 		FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */; };
+		FC6D2F272BA82578009C3867 /* DessertDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */; };
 		FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C372BA80AB600A3BA2A /* DessertsApp.swift */; };
 		FC811C3A2BA80AB600A3BA2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C392BA80AB600A3BA2A /* ContentView.swift */; };
 		FC811C3C2BA80AB700A3BA2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */; };
 		FC811C3F2BA80AB700A3BA2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC811C3E2BA80AB700A3BA2A /* Preview Assets.xcassets */; };
-		FC811C492BA80AB800A3BA2A /* DessertsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C482BA80AB800A3BA2A /* DessertsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +31,13 @@
 		FC6D2F202BA813B6009C3867 /* DessertDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetail.swift; sourceTree = "<group>"; };
 		FC6D2F222BA816E8009C3867 /* DessertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItem.swift; sourceTree = "<group>"; };
 		FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItemTests.swift; sourceTree = "<group>"; };
+		FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetailTests.swift; sourceTree = "<group>"; };
 		FC811C342BA80AB600A3BA2A /* Desserts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desserts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC811C372BA80AB600A3BA2A /* DessertsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsApp.swift; sourceTree = "<group>"; };
 		FC811C392BA80AB600A3BA2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC811C3E2BA80AB700A3BA2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FC811C442BA80AB800A3BA2A /* DessertsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DessertsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC811C482BA80AB800A3BA2A /* DessertsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +108,8 @@
 		FC811C472BA80AB800A3BA2A /* DessertsTests */ = {
 			isa = PBXGroup;
 			children = (
-				FC811C482BA80AB800A3BA2A /* DessertsTests.swift */,
 				FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */,
+				FC6D2F262BA82578009C3867 /* DessertDetailTests.swift */,
 			);
 			path = DessertsTests;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC811C492BA80AB800A3BA2A /* DessertsTests.swift in Sources */,
+				FC6D2F272BA82578009C3867 /* DessertDetailTests.swift in Sources */,
 				FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
