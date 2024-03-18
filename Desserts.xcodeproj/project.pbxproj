@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F202BA813B6009C3867 /* DessertDetail.swift */; };
+		FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F222BA816E8009C3867 /* DessertItem.swift */; };
+		FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */; };
 		FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C372BA80AB600A3BA2A /* DessertsApp.swift */; };
 		FC811C3A2BA80AB600A3BA2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC811C392BA80AB600A3BA2A /* ContentView.swift */; };
 		FC811C3C2BA80AB700A3BA2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */; };
@@ -25,6 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FC6D2F202BA813B6009C3867 /* DessertDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetail.swift; sourceTree = "<group>"; };
+		FC6D2F222BA816E8009C3867 /* DessertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItem.swift; sourceTree = "<group>"; };
+		FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItemTests.swift; sourceTree = "<group>"; };
 		FC811C342BA80AB600A3BA2A /* Desserts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desserts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC811C372BA80AB600A3BA2A /* DessertsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsApp.swift; sourceTree = "<group>"; };
 		FC811C392BA80AB600A3BA2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC6D2F1F2BA8130B009C3867 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FC6D2F222BA816E8009C3867 /* DessertItem.swift */,
+				FC6D2F202BA813B6009C3867 /* DessertDetail.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FC811C2B2BA80AB600A3BA2A = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +88,7 @@
 		FC811C362BA80AB600A3BA2A /* Desserts */ = {
 			isa = PBXGroup;
 			children = (
+				FC6D2F1F2BA8130B009C3867 /* Models */,
 				FC811C372BA80AB600A3BA2A /* DessertsApp.swift */,
 				FC811C392BA80AB600A3BA2A /* ContentView.swift */,
 				FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */,
@@ -93,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				FC811C482BA80AB800A3BA2A /* DessertsTests.swift */,
+				FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */,
 			);
 			path = DessertsTests;
 			sourceTree = "<group>";
@@ -198,6 +215,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC811C3A2BA80AB600A3BA2A /* ContentView.swift in Sources */,
+				FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */,
+				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
 				FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC811C492BA80AB800A3BA2A /* DessertsTests.swift in Sources */,
+				FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +371,8 @@
 				DEVELOPMENT_TEAM = N477T5ZBLS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Desserts;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -380,6 +402,8 @@
 				DEVELOPMENT_TEAM = N477T5ZBLS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Desserts;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
