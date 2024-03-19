@@ -31,8 +31,8 @@ public struct DessertsView: View {
             }
             .navigationTitle("Desserts")
             .navigationDestination(for: String.self) { id in
-                // TODO: Push DessertsDetail view
-                Text(id)
+                // Push DessertsDetail view
+                DessertDetailView(id: id)
             }
         }
         .searchable(

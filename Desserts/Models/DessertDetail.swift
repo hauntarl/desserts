@@ -23,7 +23,7 @@ public struct DessertDetail: Decodable, Equatable {
     public let thumbnail: URL?
     public let area: String?
     public let tags: [String]
-    public let instructions: String
+    public let instructions: [String]
     public let ingredients: [Ingredient]
     public let youtubeLink: URL?
     public let sourceLink: URL?
@@ -64,7 +64,9 @@ public struct DessertDetail: Decodable, Equatable {
         // Assumption that name is always present
         self.name = try container.decode(String.self, forKey: .strMeal)
         // Assumption that instructions are always present
-        self.instructions = try container.decode(String.self, forKey: .strInstructions)
+        self.instructions = (try container.decode(String.self, forKey: .strInstructions))
+            .split(separator: "\r\n")
+            .map { String($0) }
         self.area = try container.decodeIfPresent(String.self, forKey: .strArea)
 
         // Parse the thumbnail string into Swift's URL object
@@ -122,11 +124,21 @@ public struct DessertDetail: Decodable, Equatable {
         self.thumbnail = thumbnail
         self.area = area
         self.tags = tags
-        self.instructions = instructions
+        // Split instructions into steps
+        self.instructions = instructions.split(separator: "\r\n").map { String($0) }
         // Remove duplicate ingredients
         self.ingredients = Set(ingredients).map { $0 }.sorted { $0.name < $1.name }
         self.youtubeLink = youtubeLink
         self.sourceLink = sourceLink
+    }
+    
+    public var formattedTags: String {
+        var tags = [String]()
+        if let area {
+            tags.append(area)
+        }
+        tags.append(contentsOf: self.tags)
+        return tags.joined(separator: " • ")
     }
 }
 
