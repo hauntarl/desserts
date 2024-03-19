@@ -19,22 +19,22 @@ public struct DessertDetailView: View {
         self.id = id
     }
     
+    @Environment(\.dismiss) private var dismiss
     @State private var viewModel = ViewModel()
     @State private var steps = 1
     @State private var recipeURL: URL?
-    @State private var selectedSection = SectionId.ingredients
+    @State private var selectedSection = SectionId.info
     
     public var body: some View {
         // ScrollViewReader is used to jump to different sections of the view
         ZStack {
-            background
+            drawBackground(using: viewModel.dessert?.thumbnail)
             details
-                .navigationTitle(viewModel.dessert?.name ?? id)
-                .navigationBarTitleDisplayMode(.inline)
-                .sheet(item: $recipeURL) { url in
-                    WebView(url: url)
-                        .ignoresSafeArea()
-                }
+        }
+        .navigationBarBackButtonHidden()
+        .sheet(item: $recipeURL) { url in
+            WebView(url: url)
+                .ignoresSafeArea()
         }
         .task {
             await viewModel.getDessertDetails(for: id)
@@ -46,33 +46,31 @@ public struct DessertDetailView: View {
         ScrollViewReader { proxy in
             List {
                 if let dessert = viewModel.dessert {
-                    // If both thumbnail and tags are missing, skip this section
-                    if viewModel.sections.contains(.imageAndTags) {
-                        Section {
-                            image(from: dessert.thumbnail)
-                            tags(from: dessert.formattedTags)
-                        }
-                        .id(SectionId.imageAndTags)
+                    Section {
+                        Text(dessert.name).bold()
+                        image(from: dessert.thumbnail)
+                        tags(from: dessert.formattedTags)
                     }
+                    .id(SectionId.info)
                     
                     // If ingredients are missing, skip this section
-                    if viewModel.sections.contains(.ingredients) {
+                    if viewModel.sections.contains(.items) {
                         Section {
-                            loadIngredients(from: dessert.ingredients)
+                            loadItems(from: dessert.ingredients)
                         } header: {
-                            header(for: SectionId.ingredients.rawValue)
+                            header(for: SectionId.items.rawValue)
                         }
-                        .id(SectionId.ingredients)
+                        .id(SectionId.items)
                     }
                     
                     // If instructions are missing, skip this section
-                    if viewModel.sections.contains(.instructions) {
+                    if viewModel.sections.contains(.recipe) {
                         Section {
-                            loadSteps(from: dessert.instructions, proxy: proxy)
+                            loadRecipe(from: dessert.instructions, proxy: proxy)
                         } header: {
-                            header(for: SectionId.instructions.rawValue)
+                            header(for: SectionId.recipe.rawValue)
                         }
-                        .id(SectionId.instructions)
+                        .id(SectionId.recipe)
                     }
                     
                     // If both youtube and recipe links are missing, skip this section
@@ -90,6 +88,11 @@ public struct DessertDetailView: View {
                 }
             }
             .shadow(radius: 10)
+            .safeAreaInset(edge: .top) {
+                backButton {
+                    dismiss()
+                }
+            }
             .safeAreaInset(edge: .bottom) {
                 sectionPicker(proxy)
             }
@@ -97,55 +100,8 @@ public struct DessertDetailView: View {
         }
     }
     
-    private func header(for title: String) -> some View {
-        Text(title)
-            .font(.caption)
-            .foregroundStyle(.background)
-            .padding(6)
-            .background {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(.primary)
-            }
-    }
-    
-    private func image(from url: URL?) -> some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .scaledToFit()
-        } placeholder: {
-            Image(systemName: "photo")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.gray)
-        }
-        .clipShape(.rect(cornerRadius: 10))
-    }
-    
     @ViewBuilder
-    private func tags(from formattedTags: String) -> some View {
-        if !formattedTags.isEmpty {
-            Text(formattedTags)
-                .font(.subheadline)
-        }
-    }
-    
-    private func loadIngredients(from ingredients: [Ingredient]) -> some View {
-        ForEach(ingredients, id: \.self) { ingredient in
-            HStack {
-                Text(ingredient.name)
-                    .bold()
-                
-                Spacer()
-                
-                Text(ingredient.quantity)
-            }
-        }
-        .font(.subheadline)
-    }
-    
-    @ViewBuilder
-    private func loadSteps(from instructions: [String], proxy: ScrollViewProxy) -> some View {
+    private func loadRecipe(from instructions: [String], proxy: ScrollViewProxy) -> some View {
         ForEach(instructions[0..<steps], id: \.self) { step in
             Text(step)
         }
@@ -153,7 +109,7 @@ public struct DessertDetailView: View {
         // If there's only one step in the instructions then skip this button
         if instructions.count > 1 {
             Button(steps < instructions.count ? "Read more" : "Close") {
-                withAnimation(.easeOut(duration: 0.3)) {
+                withAnimation(.bouncy) {
                     if steps < instructions.count {
                         steps += 1
                     } else {
@@ -163,16 +119,6 @@ public struct DessertDetailView: View {
                 }
             }
             .id(SectionId.readMoreButton)
-        }
-    }
-    
-    @ViewBuilder
-    private func youtubeLink(for url: URL?) -> some View {
-        // Show Link if youtube url is present
-        if let url {
-            Link(destination: url) {
-                Label("Youtube", systemImage: "video.fill.badge.checkmark")
-            }
         }
     }
     
@@ -191,7 +137,7 @@ public struct DessertDetailView: View {
     private func sectionPicker(_ proxy: ScrollViewProxy) -> some View {
         // Creates a segmented picker view that allows a user to jump between sections.
         Picker("", selection: $selectedSection) {
-            ForEach(viewModel.sections.dropFirst(), id: \.self) { section in
+            ForEach(viewModel.sections, id: \.self) { section in
                 Text(section.rawValue.uppercased())
                     .tag(section)
             }
@@ -202,24 +148,6 @@ public struct DessertDetailView: View {
         .onChange(of: selectedSection) {
             withAnimation {
                 proxy.scrollTo(selectedSection, anchor: .top)
-            }
-        }
-    }
-    
-    private var background: some View {
-        GeometryReader { proxy in
-            if let dessert = viewModel.dessert {
-                AsyncImage(url: dessert.thumbnail) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .blur(radius: 20)
-                        .ignoresSafeArea()
-                } placeholder: {
-                    Color.gray.opacity(0.2)
-                }
-            } else {
-                Color.gray.opacity(0.2)
             }
         }
     }

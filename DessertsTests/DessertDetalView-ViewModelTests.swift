@@ -73,7 +73,7 @@ final class DessertDetalView_ViewModelTests: XCTestCase {
     }
     
     func testUpdateSectionsSuccess() async throws {
-        let expected: [DessertDetailView.SectionId] = [.imageAndTags, .ingredients, .instructions, .links]
+        let expected: [DessertDetailView.SectionId] = [.info, .items, .recipe, .links]
         
         networkingMock.result = .success(DessertDetailTests.dessertDetailNullOrEmptyIngredientsJSON)
         await dessertDetailViewModel.getDessertDetails(for: "52776")

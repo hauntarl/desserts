@@ -25,6 +25,7 @@
 		FCB7FC222BA9021C00B8644B /* DessertDetailView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC212BA9021C00B8644B /* DessertDetailView-ViewModel.swift */; };
 		FCB7FC242BA921A900B8644B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC232BA921A900B8644B /* WebView.swift */; };
 		FCB7FC262BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC252BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift */; };
+		FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		FCB7FC212BA9021C00B8644B /* DessertDetailView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetailView-ViewModel.swift"; sourceTree = "<group>"; };
 		FCB7FC232BA921A900B8644B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		FCB7FC252BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetalView-ViewModelTests.swift"; sourceTree = "<group>"; };
+		FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetailView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			children = (
 				FC811C392BA80AB600A3BA2A /* DessertsView.swift */,
 				FCB7FC1F2BA901D600B8644B /* DessertDetailView.swift */,
+				FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */,
 				FCB7FC222BA9021C00B8644B /* DessertDetailView-ViewModel.swift in Sources */,
 				FCB7FC202BA901D600B8644B /* DessertDetailView.swift in Sources */,
+				FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */,
 				FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */,
 				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
 				FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */,

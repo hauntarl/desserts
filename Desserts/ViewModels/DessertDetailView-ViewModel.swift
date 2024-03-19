@@ -9,9 +9,9 @@ import Foundation
 
 extension DessertDetailView {
     public enum SectionId: String, Hashable, CaseIterable {
-        case imageAndTags = "top"
-        case ingredients
-        case instructions
+        case info
+        case items
+        case recipe
         case links
         case readMoreButton
     }
@@ -60,14 +60,13 @@ extension DessertDetailView {
             guard let dessert = _dessert else {
                 return
             }
-            if dessert.thumbnail != nil || !dessert.formattedTags.isEmpty {
-                sections.append(.imageAndTags)
-            }
+            
+            sections.append(.info)
             if !dessert.ingredients.isEmpty {
-                sections.append(.ingredients)
+                sections.append(.items)
             }
             if !dessert.instructions.isEmpty {
-                sections.append(.instructions)
+                sections.append(.recipe)
             }
             if dessert.youtubeLink != nil || dessert.sourceLink != nil {
                 sections.append(.links)
