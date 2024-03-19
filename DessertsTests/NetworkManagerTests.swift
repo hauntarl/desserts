@@ -39,7 +39,7 @@ final class NetworkManagerTests: XCTestCase {
             )
         ])
         
-        let urlString = "\(NetworkManager.baseURL)?c=Dessert"
+        let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
         let got: DessertItemResult = try await networkManager.loadData(from: urlString)
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
@@ -64,7 +64,7 @@ final class NetworkManagerTests: XCTestCase {
             sourceLink: URL(string: "http://www.goodtoknow.co.uk/recipes/536028/chocolate-gateau")
         )
         
-        let urlString = "\(NetworkManager.baseURL)?i=52776"
+        let urlString = "\(NetworkManager.dessertItemsURL)?i=52776"
         let got: DessertDetailResult = try await networkManager.loadData(from: urlString)
         
         XCTAssertNotNil(got.meals.first)
@@ -86,7 +86,7 @@ final class NetworkManagerTests: XCTestCase {
     func testNetworkManagerResponseError() async throws {
         networking.result = .failure(NetworkError.responseError)
         do {
-            let urlString = "\(NetworkManager.baseURL)?c=Dessert"
+            let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
             let _: DessertItemResult = try await networkManager.loadData(from: urlString)
             XCTFail("Should not succeed")
         } catch NetworkError.responseError {
@@ -100,7 +100,7 @@ final class NetworkManagerTests: XCTestCase {
     func testNetworkManagerParsingError() async throws {
         networking.result = .success(Data())
         do {
-            let urlString = "\(NetworkManager.baseURL)?c=Dessert"
+            let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
             let _: DessertItemResult = try await networkManager.loadData(from: urlString)
             XCTFail("Should not succeed")
         } catch {

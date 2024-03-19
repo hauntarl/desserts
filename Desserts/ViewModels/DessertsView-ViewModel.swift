@@ -42,13 +42,12 @@ extension DessertsView {
          Sorts them in ascending order based on the `name` key.
          */
         public func getDesserts() async {
-            let urlString = "\(NetworkManager.baseURL)?c=Dessert"
+            let urlString = NetworkManager.dessertItemsURL
             do {
                 let result: DessertItemResult = try await networkManager.loadData(from: urlString)
                 items = result.meals.sorted { $0.name < $1.name }
             } catch {
                 // Purposefully left error handling, to keep the views and view models as simple as possible.
-                //
                 print(error.localizedDescription)
             }
         }

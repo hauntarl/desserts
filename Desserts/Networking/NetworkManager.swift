@@ -10,7 +10,8 @@ import Foundation
 /**A generic network manager that loads data from a given api endpoint.*/
 public struct NetworkManager {
     public static let shared = Self()
-    public static let baseURL = "https://themealdb.com/api/json/v1/1/filter.php"
+    public static let dessertItemsURL = "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert"
+    public static let dessertDetailsURL = "https://themealdb.com/api/json/v1/1/lookup.php"
 
     private let networking: Networking
     
