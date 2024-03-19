@@ -34,15 +34,28 @@ extension DessertDetailView {
     }
     
     func image(from url: URL?) -> some View {
-        AsyncImage(url: url) { image in
+        NetworkImage(url: url) { image in
             image
                 .resizable()
                 .scaledToFit()
         } placeholder: {
-            Image(systemName: "photo")
+            // As the parent doesn't explicitly specify a size of the images, the images size themselves based on
+            // their intrinsic dimensions. If the placeholder view has different dimensions, the transition will
+            // cause a jump in the container dimensions.
+            //
+            // In order to get rid of this unintended effect, I've added a Placeholder image in the project's
+            // asset. When you apply a .hidden() modifier on a view, and overlay the hidden view with some other
+            // view, this view can take up to the dimensions of the hidden view.
+            //
+            // The above process makes sure that the placeholder view will result in same size as the actual image
+            // and this helps avoid any stutter or jump while transitioning from placeholder to content.
+            Image("Placeholder")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.gray)
+                .hidden()
+                .overlay {
+                    Rectangle().foregroundStyle(.thinMaterial)
+                }
         }
         .clipShape(.rect(cornerRadius: 10))
     }
@@ -81,14 +94,21 @@ extension DessertDetailView {
     
     func drawBackground(using thumbnail: URL?) -> some View {
         GeometryReader { _ in
-            AsyncImage(url: thumbnail) { image in
+            NetworkImage(url: thumbnail) { image in
                 image
                     .resizable()
                     .scaledToFill()
                     .blur(radius: 20)
                     .ignoresSafeArea()
             } placeholder: {
-                Color.secondary
+                Image("Placeholder")
+                    .resizable()
+                    .scaledToFill()
+                    .hidden()
+                    .overlay {
+                        Rectangle().foregroundStyle(.thinMaterial)
+                    }
+                    .ignoresSafeArea()
             }
         }
     }

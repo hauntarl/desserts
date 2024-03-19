@@ -13,21 +13,24 @@ import SwiftUI
  */
 public struct DessertsView: View {
     @State private var viewModel = ViewModel()
+    @State private var desserts = [DessertItem]()  // Stores api results
+    @State private var filtered = [DessertItem]()  // Provides filtered view
+    @State private var searchText = ""
     
     public var body: some View {
         NavigationStack {
-            List(viewModel.desserts) { item in
+            List(filtered) { item in
                 NavigationLink(value: item.id) {
                     itemLabel(for: item)
                 }
             }
             .task {
                 // Load desserts when the view appears
-                await viewModel.getDesserts()
+                await getDesserts()
             }
             .refreshable {
                 // Pull to refresh
-                await viewModel.getDesserts()
+                await getDesserts()
             }
             .navigationTitle("Desserts")
             .navigationDestination(for: String.self) { id in
@@ -36,21 +39,41 @@ public struct DessertsView: View {
             }
         }
         .searchable(
-            text: $viewModel.searchText,
+            text: $searchText,
             prompt: "What are you craving for?"
         )  // Filter results based on user's search query
+        .onChange(of: searchText) {
+            withAnimation {
+                filterDesserts()
+            }
+        }
+    }
+    
+    private func getDesserts() async {
+        let items = await viewModel.getDesserts()
+        withAnimation {
+            self.desserts = items
+            filterDesserts()
+        }
+    }
+    
+    private func filterDesserts() {
+        filtered = searchText.isEmpty ? desserts : desserts.filter {
+            $0.name.localizedCaseInsensitiveContains(searchText)
+        }
     }
     
     private func itemLabel(for item: DessertItem) -> some View {
         Label {
             Text(item.name)
         } icon: {
-            AsyncImage(url: item.thumbnail) { image in
+            NetworkImage(url: item.thumbnail) { image in
                 image
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                ProgressView()
+                Rectangle()
+                    .foregroundStyle(.thickMaterial)
             }
             .frame(width: 30, height: 30)
             .clipShape(.circle)

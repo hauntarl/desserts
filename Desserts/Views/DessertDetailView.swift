@@ -21,14 +21,18 @@ public struct DessertDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel = ViewModel()
+    
+    @State private var dessert: DessertDetail?
     @State private var steps = 1
     @State private var recipeURL: URL?
+    
+    @State private var sections = [SectionId]()
     @State private var selectedSection = SectionId.info
     
     public var body: some View {
         // ScrollViewReader is used to jump to different sections of the view
         ZStack {
-            drawBackground(using: viewModel.dessert?.thumbnail)
+            drawBackground(using: dessert?.thumbnail)
             details
         }
         .navigationBarBackButtonHidden()
@@ -37,15 +41,20 @@ public struct DessertDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
-            await viewModel.getDessertDetails(for: id)
-            viewModel.updateSections()
+            guard let dessert = await viewModel.getDessertDetails(for: id) else {
+                return
+            }
+            withAnimation(.bouncy) {
+                self.dessert = dessert
+                self.sections = viewModel.updateSections(for: dessert)
+            }
         }
     }
     
     private var details: some View {
         ScrollViewReader { proxy in
             List {
-                if let dessert = viewModel.dessert {
+                if let dessert {
                     Section {
                         Text(dessert.name).bold()
                         image(from: dessert.thumbnail)
@@ -54,7 +63,7 @@ public struct DessertDetailView: View {
                     .id(SectionId.info)
                     
                     // If ingredients are missing, skip this section
-                    if viewModel.sections.contains(.items) {
+                    if sections.contains(.items) {
                         Section {
                             loadItems(from: dessert.ingredients)
                         } header: {
@@ -64,7 +73,7 @@ public struct DessertDetailView: View {
                     }
                     
                     // If instructions are missing, skip this section
-                    if viewModel.sections.contains(.recipe) {
+                    if sections.contains(.recipe) {
                         Section {
                             loadRecipe(from: dessert.instructions, proxy: proxy)
                         } header: {
@@ -74,7 +83,7 @@ public struct DessertDetailView: View {
                     }
                     
                     // If both youtube and recipe links are missing, skip this section
-                    if viewModel.sections.contains(.links) {
+                    if sections.contains(.links) {
                         Section {
                             // Opens the youtube link in a browser
                             youtubeLink(for: dessert.youtubeLink)
@@ -137,7 +146,7 @@ public struct DessertDetailView: View {
     private func sectionPicker(_ proxy: ScrollViewProxy) -> some View {
         // Creates a segmented picker view that allows a user to jump between sections.
         Picker("", selection: $selectedSection) {
-            ForEach(viewModel.sections, id: \.self) { section in
+            ForEach(sections, id: \.self) { section in
                 Text(section.rawValue.uppercased())
                     .tag(section)
             }

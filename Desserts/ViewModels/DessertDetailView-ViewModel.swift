@@ -36,23 +36,21 @@ extension DessertDetailView {
             self.networkManager = networkManager
         }
         
-        public var dessert: DessertDetail?  // Stores api result
-        public var sections: [SectionId] = []
-        
         /**
          Loads the dessert details from [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894) api.
          */
-        public func getDessertDetails(for id: String) async {
+        public func getDessertDetails(for id: String) async -> DessertDetail? {
             let urlString = "\(NetworkManager.dessertDetailsURL)?i=\(id)"
             do {
                 let result: DessertDetailResult = try await networkManager.loadData(from: urlString)
                 // Verify if required fields are present in the result
                 guard let dessert = result.meals.first, !dessert.name.isEmpty, dessert.thumbnail != .none else {
-                    return
+                    return nil
                 }
-                self.dessert = dessert
+                return dessert
             } catch {
                 print(error.localizedDescription)
+                return nil
             }
         }
         
@@ -60,12 +58,8 @@ extension DessertDetailView {
          Based on the retrieved dessert details, `updateSections()` calculates total sections that will
          have non-nil data in the List view.
          */
-        public func updateSections() {
-            guard let dessert = _dessert else {
-                return
-            }
-            
-            sections.append(.info)
+        public func updateSections(for dessert: DessertDetail) -> [SectionId] {
+            var sections: [SectionId] = [.info]
             if !dessert.ingredients.isEmpty {
                 sections.append(.items)
             }
@@ -75,6 +69,7 @@ extension DessertDetailView {
             if dessert.youtubeLink != nil || dessert.sourceLink != nil {
                 sections.append(.links)
             }
+            return sections
         }
     }
 }

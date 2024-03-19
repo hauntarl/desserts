@@ -26,6 +26,8 @@
 		FCB7FC242BA921A900B8644B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC232BA921A900B8644B /* WebView.swift */; };
 		FCB7FC262BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB7FC252BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift */; };
 		FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */; };
+		FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A292BA9B455006CD63B /* ImageCache.swift */; };
+		FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		FCB7FC232BA921A900B8644B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		FCB7FC252BA92B5400B8644B /* DessertDetalView-ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetalView-ViewModelTests.swift"; sourceTree = "<group>"; };
 		FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetailView+Extension.swift"; sourceTree = "<group>"; };
+		FCC79A292BA9B455006CD63B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +179,8 @@
 			isa = PBXGroup;
 			children = (
 				FCB7FC232BA921A900B8644B /* WebView.swift */,
+				FCC79A292BA9B455006CD63B /* ImageCache.swift */,
+				FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -285,6 +291,8 @@
 				FCB7FC222BA9021C00B8644B /* DessertDetailView-ViewModel.swift in Sources */,
 				FCB7FC202BA901D600B8644B /* DessertDetailView.swift in Sources */,
 				FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */,
+				FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */,
+				FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */,
 				FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */,
 				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
 				FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */,
