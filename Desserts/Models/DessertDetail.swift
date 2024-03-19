@@ -9,19 +9,11 @@ import Foundation
 
 /**
  `DessertDetail` model is used to display result of querying Dessert Details from [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894)
- 
- This model works under the assumption that the following fields always have a
- valid value in the API response:
- - `strMeal`
- - `strInstructions`
- 
- >NOTE: The basis for this assumption comes from analyzing the json response for
- >provided API call.
  */
 public struct DessertDetail: Decodable, Equatable {
     public let name: String
     public let thumbnail: URL?
-    public let area: String?
+    public let area: String
     public let tags: [String]
     public let instructions: [String]
     public let ingredients: [Ingredient]
@@ -61,22 +53,28 @@ public struct DessertDetail: Decodable, Equatable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        // Assumption that name is always present
-        self.name = try container.decode(String.self, forKey: .strMeal)
-        // Assumption that instructions are always present
-        self.instructions = (try container.decode(String.self, forKey: .strInstructions))
+        // Getting rid of null values, and whitespaces.
+        self.name = (try container.decodeIfPresent(String.self, forKey: .strMeal) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        self.instructions = (try container.decodeIfPresent(String.self, forKey: .strInstructions) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
             .split(separator: "\r\n")
             .map { String($0) }
-        self.area = try container.decodeIfPresent(String.self, forKey: .strArea)
+        
+        self.area = (try container.decodeIfPresent(String.self, forKey: .strArea) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
 
         // Parse the thumbnail string into Swift's URL object
         let thumbnailURL = (try container.decodeIfPresent(String.self, forKey: .strMealThumb) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         self.thumbnail = URL(string: thumbnailURL)
+        
         // Parse the youtube string into Swift's URL object
         let youtubeURL = (try container.decodeIfPresent(String.self, forKey: .strYoutube) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         self.youtubeLink = URL(string: youtubeURL)
+        
         // Parse the source string into Swift's URL object
         let sourceURL = (try container.decodeIfPresent(String.self, forKey: .strSource) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -85,35 +83,32 @@ public struct DessertDetail: Decodable, Equatable {
         // Parse tags into a list of string
         let tags = (try container.decodeIfPresent(String.self, forKey: .strTags) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        if !tags.isEmpty {
-            self.tags = tags.split(separator: ",").map { String($0) }
-        } else {
-            self.tags = []
-        }
+        self.tags = !tags.isEmpty ? tags.split(separator: ",").map { String($0) } : []
         
         // Parse ingredients, maps each ingredient number to the corresponding measure number
-        // Performs check for nil value, and whitespaces.
+        // Gets rid of nil value, and whitespaces.
         // Skips empty values, and duplicate ingredients
         var ingredients: Set<Ingredient> = []
         for i in 0..<Self.ingredientKeys.count {
             let name = (try container.decodeIfPresent(String.self, forKey: Self.ingredientKeys[i]) ?? "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
+            
             let quantity = (try container.decodeIfPresent(String.self, forKey: Self.measureKeys[i]) ?? "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
+            
             if !name.isEmpty {
                 ingredients.insert(Ingredient(name: name, quantity: quantity))
             }
         }
-        self.ingredients = ingredients
-            .map { $0 }
-            .sorted { $0.name < $1.name }
+        // Sort ingredients alphabetically
+        self.ingredients = ingredients.map { $0 }.sorted { $0.name < $1.name }
     }
     
     /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(
         name: String,
         thumbnail: URL?,
-        area: String?,
+        area: String,
         tags: [String],
         instructions: String,
         ingredients: [Ingredient],
@@ -126,7 +121,7 @@ public struct DessertDetail: Decodable, Equatable {
         self.tags = tags
         // Split instructions into steps
         self.instructions = instructions.split(separator: "\r\n").map { String($0) }
-        // Remove duplicate ingredients
+        // Remove duplicate ingredients, and sort them alphabetically
         self.ingredients = Set(ingredients).map { $0 }.sorted { $0.name < $1.name }
         self.youtubeLink = youtubeLink
         self.sourceLink = sourceLink
@@ -134,7 +129,7 @@ public struct DessertDetail: Decodable, Equatable {
     
     public var formattedTags: String {
         var tags = [String]()
-        if let area {
+        if !area.isEmpty {
             tags.append(area)
         }
         tags.append(contentsOf: self.tags)

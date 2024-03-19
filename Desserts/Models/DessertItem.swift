@@ -9,14 +9,6 @@ import Foundation
 
 /**
  `DessertItem` model is used to display result of querying Desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)
- 
- This model works under the assumption that the following fields always have a
- valid value in the API response:
- - `idMeal`
- - `strMeal`
- 
- >NOTE: The basis for this assumption comes from analyzing the json response for
- >both API calls.
  */
 public struct DessertItem: Decodable, Identifiable, Equatable {
     public let id: String
@@ -35,10 +27,12 @@ public struct DessertItem: Decodable, Identifiable, Equatable {
      */
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        // Assumption that id is always present
-        self.id = try container.decode(String.self, forKey: .idMeal)
-        // Assumption that name is always present
-        self.name = try container.decode(String.self, forKey: .strMeal)
+        // Getting rid of null values, and whitespaces.
+        self.id = (try container.decodeIfPresent(String.self, forKey: .idMeal) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        self.name = (try container.decodeIfPresent(String.self, forKey: .strMeal) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Parse the url string into Swift's URL object
         let thumbnailURL = (try container.decodeIfPresent(String.self, forKey: .strMealThumb) ?? "")
