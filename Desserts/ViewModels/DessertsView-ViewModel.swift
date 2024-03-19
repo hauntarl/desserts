@@ -45,7 +45,10 @@ extension DessertsView {
             let urlString = NetworkManager.dessertItemsURL
             do {
                 let result: DessertItemResult = try await networkManager.loadData(from: urlString)
-                items = result.meals.sorted { $0.name < $1.name }
+                // Remove desserts that have missing id, name, or thumbnail.
+                items = result.meals
+                    .filter { !$0.id.isEmpty && !$0.name.isEmpty && $0.thumbnail != .none}
+                    .sorted { $0.name < $1.name }
             } catch {
                 // Purposefully left error handling, to keep the views and view models as simple as possible.
                 print(error.localizedDescription)

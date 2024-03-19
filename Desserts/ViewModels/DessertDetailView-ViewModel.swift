@@ -46,7 +46,11 @@ extension DessertDetailView {
             let urlString = "\(NetworkManager.dessertDetailsURL)?i=\(id)"
             do {
                 let result: DessertDetailResult = try await networkManager.loadData(from: urlString)
-                dessert = result.meals.first
+                // Verify if required fields are present in the result
+                guard let dessert = result.meals.first, !dessert.name.isEmpty, dessert.thumbnail != .none else {
+                    return
+                }
+                self.dessert = dessert
             } catch {
                 print(error.localizedDescription)
             }
