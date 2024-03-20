@@ -40,7 +40,7 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
             sourceLink: URL(string: "http://www.goodtoknow.co.uk/recipes/536028/chocolate-gateau")
         )
         
-        networkingMock.result = .success(DessertDetailTests.dessertDetailNullOrEmptyIngredientsJSON)
+        networkingMock.result = .success(DessertDetailTests.dessertDetailJSON)
         let got = await dessertDetailViewModel.getDessertDetails(for: "52776")
         
         XCTAssertNotNil(got)
@@ -71,7 +71,7 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
     func testUpdateSectionsSuccess() async throws {
         let expected: [DessertDetailView.SectionId] = [.info, .items, .recipe, .links]
         
-        networkingMock.result = .success(DessertDetailTests.dessertDetailNullOrEmptyIngredientsJSON)
+        networkingMock.result = .success(DessertDetailTests.dessertDetailJSON)
         guard let dessertDetails = await dessertDetailViewModel.getDessertDetails(for: "52776") else {
             XCTFail("Details should be parsed correctly.")
             return

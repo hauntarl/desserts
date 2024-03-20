@@ -45,7 +45,7 @@ final class NetworkManagerTests: XCTestCase {
     }
     
     func testNetworkManagerDesertDetailResultSuccess() async throws {
-        networking.result = .success(DessertDetailTests.dessertDetailNullOrEmptyIngredientsJSON)
+        networking.result = .success(DessertDetailTests.dessertDetailJSON)
         let expected = DessertDetail(
             name: "Chocolate Gateau",
             thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg"),

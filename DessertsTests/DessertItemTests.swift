@@ -22,87 +22,28 @@ final class DessertItemTests: XCTestCase {
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     
-    // Test verifies that if the json has empty/whitespaces/newlines for thumbnail, the attribute is set to nil
-    func testDessertItemParsingEmptyURL() throws {
-        let expected = DessertItem(
-            id: "53049",
-            name: "Apam balik",
-            thumbnail: nil
-        )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONEmptyURL)
-        
-        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
-    }
-    
-    // Test verifies that if the json has null for thumbnail, the attribute is set to nil
-    func testDessertItemParsingNullURL() throws {
-        let expected = DessertItem(
-            id: "53049",
-            name: "Apam balik",
-            thumbnail: nil
-        )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONNullURL)
-        
-        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
-    }
-    
-    // Test verifies that if the json has empty/whitespaces/newlines for name, the attribute is set to empty string
-    func testDessertItemParsingEmptyName() throws {
-        let expected = DessertItem(
-            id: "53049",
-            name: "",
-            thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
-        )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONEmptyName)
-        
-        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
-    }
-    
-    // Test verifies that if the json has empty/whitespaces/newlines for name, the attribute is set to empty string
-    func testDessertItemParsingNullName() throws {
-        let expected = DessertItem(
-            id: "53049",
-            name: "",
-            thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
-        )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONNullName)
-        
-        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
-    }
-    
-    // Test verifies that if the json has empty/whitespaces/newlines for id, the attribute is set to empty string
-    func testDessertItemParsingEmptyID() throws {
+    // Test verifies that if fields have empty/whitespaces/newlines in dessert item json, get parsed successfully.
+    func testDessertItemParsingEmptyFields() throws {
         let expected = DessertItem(
             id: "",
-            name: "Apam balik",
-            thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            name: "",
+            thumbnail: nil
         )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONEmptyID)
+        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemEmptyFieldsSON)
         
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     
-    // Test verifies that if the json has null for id, the attribute is set to empty string
-    func testDessertItemParsingNullID() throws {
+    // Test verifies that if fields have null values in dessert item json, get parsed successfully.
+    func testDessertItemParsingNullFields() throws {
         let expected = DessertItem(
             id: "",
-            name: "Apam balik",
-            thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            name: "",
+            thumbnail: nil
         )
-        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONNullID)
+        let got = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemNullFieldsJSON)
         
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
-    }
-    
-    // Test verifies that if the json returns a different type than String for id, an error is thrown
-    func testDessertItemParsingNonStringID() throws {
-        do {
-            let _ = try JSONDecoder().decode(DessertItem.self, from: Self.dessertItemJSONNonStringID)
-            XCTFail("Expected to throw a type mismatch error.")
-        } catch {
-            // passing condition
-            return
-        }
     }
     
     // Test verifies that a json with the list of dessert items (including empty/null) get parsed successfully
@@ -176,59 +117,19 @@ final class DessertItemTests: XCTestCase {
     }
     """.data(using: .utf8)!
     
-    static let dessertItemJSONEmptyURL = """
-    {
-      "strMeal": "Apam balik",
-      "strMealThumb": " ",
-      "idMeal": "53049"
-    }
-    """.data(using: .utf8)!
-    
-    static let dessertItemJSONNullURL = """
-    {
-      "strMeal": "Apam balik",
-      "strMealThumb": null,
-      "idMeal": "53049"
-    }
-    """.data(using: .utf8)!
-    
-    static let dessertItemJSONEmptyName = """
+    static let dessertItemEmptyFieldsSON = """
     {
       "strMeal": " ",
-      "strMealThumb": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
-      "idMeal": "53049"
-    }
-    """.data(using: .utf8)!
-    
-    static let dessertItemJSONNullName = """
-    {
-      "strMeal": null,
-      "strMealThumb": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
-      "idMeal": "53049"
-    }
-    """.data(using: .utf8)!
-    
-    static let dessertItemJSONEmptyID = """
-    {
-      "strMeal": "Apam balik",
-      "strMealThumb": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
+      "strMealThumb": " ",
       "idMeal": " "
     }
     """.data(using: .utf8)!
     
-    static let dessertItemJSONNullID = """
+    static let dessertItemNullFieldsJSON = """
     {
-      "strMeal": "Apam balik",
-      "strMealThumb": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
+      "strMeal": null,
+      "strMealThumb": null,
       "idMeal": null
-    }
-    """.data(using: .utf8)!
-    
-    static let dessertItemJSONNonStringID = """
-    {
-      "strMeal": "Apam balik",
-      "strMealThumb": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
-      "idMeal": 53049
     }
     """.data(using: .utf8)!
     

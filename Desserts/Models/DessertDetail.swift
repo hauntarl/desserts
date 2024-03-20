@@ -53,6 +53,7 @@ public struct DessertDetail: Decodable, Equatable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         // Getting rid of null values, and whitespaces.
         self.name = (try container.decodeIfPresent(String.self, forKey: .strMeal) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -93,10 +94,10 @@ public struct DessertDetail: Decodable, Equatable {
             let name = (try container.decodeIfPresent(String.self, forKey: Self.ingredientKeys[i]) ?? "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             
-            let quantity = (try container.decodeIfPresent(String.self, forKey: Self.measureKeys[i]) ?? "")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            
             if !name.isEmpty {
+                let quantity = (try container.decodeIfPresent(String.self, forKey: Self.measureKeys[i]) ?? "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                
                 ingredients.insert(Ingredient(name: name, quantity: quantity))
             }
         }
@@ -175,5 +176,16 @@ public struct DessertDetailResult: Decodable, Equatable {
     /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(meals: [DessertDetail]) {
         self.meals = meals
+    }
+    
+    enum CodingKeys: CodingKey {
+        case meals
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Handle null as a possible value of meals attribute
+        self.meals = try container.decodeIfPresent([DessertDetail].self, forKey: .meals) ?? []
     }
 }
