@@ -28,6 +28,8 @@
 		FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */; };
 		FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A292BA9B455006CD63B /* ImageCache.swift */; };
 		FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */; };
+		FCF4D9052BAAAF47001417B0 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF4D9042BAAAF47001417B0 /* ViewState.swift */; };
+		FCF4D9072BAAB020001417B0 /* ContentUnavailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DessertDetailView+Extension.swift"; sourceTree = "<group>"; };
 		FCC79A292BA9B455006CD63B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
+		FCF4D9042BAAAF47001417B0 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUnavailable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,8 @@
 				FCB7FC232BA921A900B8644B /* WebView.swift */,
 				FCC79A292BA9B455006CD63B /* ImageCache.swift */,
 				FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */,
+				FCF4D9042BAAAF47001417B0 /* ViewState.swift */,
+				FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -293,8 +299,10 @@
 				FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */,
 				FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */,
 				FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */,
+				FCF4D9052BAAAF47001417B0 /* ViewState.swift in Sources */,
 				FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */,
 				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
+				FCF4D9072BAAB020001417B0 /* ContentUnavailable.swift in Sources */,
 				FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */,
 				FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */,
 				FC94FC622BA85CB600E60D24 /* Networking.swift in Sources */,

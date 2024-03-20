@@ -6,16 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension DessertDetailView {
-    public enum SectionId: String, Hashable, CaseIterable {
-        case info
-        case items
-        case recipe
-        case links
-        case readMoreButton
-    }
-    
     /**
      ViewModel for the DessertDetailView
      
@@ -71,5 +64,17 @@ extension DessertDetailView {
             }
             return sections
         }
+    }
+    
+    /**
+     SectionID is used as anchor points for ScrollViewProxy to jump between different sections of the
+     DessertDetailView.
+     */
+    public enum SectionId: String, Hashable, CaseIterable {
+        case info
+        case items
+        case recipe
+        case links
+        case readMoreButton
     }
 }

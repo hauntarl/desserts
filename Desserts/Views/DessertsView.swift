@@ -13,7 +13,7 @@ import SwiftUI
  */
 public struct DessertsView: View {
     @State private var viewModel = ViewModel()
-    @State private var viewState = ViewState.loading
+    @State private var viewState: ViewState<[DessertItem]> = .loading
     
     @State private var desserts = [DessertItem]()  // Stores api results
     @State private var filtered = [DessertItem]()  // Provides filtered view
@@ -28,7 +28,13 @@ public struct DessertsView: View {
                 case .success:
                     dessertItems
                 case .failure(let message):
-                    contentUnavailable(reason: message)
+                    ContentUnavailable(
+                        image: "DessertsUnavailable",
+                        title: "Unavailable at the moment",
+                        message: message
+                    ) {
+                        Task { await getDesserts() }
+                    }
                 }
             }
             .navigationTitle("Desserts")
@@ -76,28 +82,6 @@ public struct DessertsView: View {
             }
             .frame(width: 30, height: 30)
             .clipShape(.circle)
-        }
-    }
-    
-    private func contentUnavailable(reason: LocalizedStringKey) -> some View {
-        ContentUnavailableView {
-            VStack {
-                Image("DessertsUnavailable")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-                
-                Text("Unavailable at the moment")
-                    .font(.title)
-                
-                (Text(reason) + Text("**Tap to retry!**"))
-                    .font(.callout)
-            }
-        }
-        .onTapGesture {
-            Task {
-                await getDesserts()
-            }
         }
     }
     

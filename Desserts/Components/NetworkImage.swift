@@ -51,3 +51,15 @@ struct NetworkImage<I: View, P: View>: View {
         }
     }
 }
+
+#Preview {
+    NetworkImage(
+        url: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+    ) { image in
+        image
+            .resizable()
+            .scaledToFit()
+    } placeholder: {
+        ProgressView()
+    }
+}

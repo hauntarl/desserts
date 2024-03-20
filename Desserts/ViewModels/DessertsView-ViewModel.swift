@@ -33,7 +33,7 @@ extension DessertsView {
          Loads the list of desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert) api.
          Sorts them in ascending order based on the `name` key.
          */
-        public func getDesserts() async -> ViewState {
+        public func getDesserts() async -> ViewState<[DessertItem]> {
             let urlString = NetworkManager.dessertItemsURL
             do {
                 let result: DessertItemResult = try await networkManager.loadData(from: urlString)
@@ -50,18 +50,5 @@ extension DessertsView {
                 return .failure(message: "\(error.localizedDescription)")
             }
         }
-    }
-    
-    /**
-     ViewState for the DessertView
-     
-     Utilized to show different views depending on the state of this enum.
-     */
-    public enum ViewState {
-        case loading
-        case success(desserts: [DessertItem])
-        // The message is of type LocalizedStringKey because Text view supports embedding markdown via
-        // LocalizedStringKey.
-        case failure(message: LocalizedStringKey)
     }
 }
