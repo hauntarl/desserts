@@ -21,22 +21,14 @@ final class DessertsView_ViewModelTests: XCTestCase {
         dessertsViewModel = .init(networkManager: networkManager)
     }
     
+    // Test verifies whether the getDesserts() method successfully fetches, parses, and filters the dessert items.
+    // Dessert items that don't have either id, name, or thumbnail are removed from the final list of desserts.
     func testGetDessertsSuccess() async throws {
         let expected: [DessertItem] = [
             .init(
                 id: "53049",
                 name: "Apam balik",
                 thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
-            ),
-            .init(
-                id: "52893",
-                name: "Apple & Blackberry Crumble",
-                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg")
-            ),
-            .init(
-                id: "52768",
-                name: "Apple Frangipan Tart",
-                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/wxywrq1468235067.jpg")
             )
         ]
         
@@ -46,13 +38,7 @@ final class DessertsView_ViewModelTests: XCTestCase {
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     
-    func testGetDessertsInvalidURL() async throws {
-        networkingMock.result = .failure(NetworkError.invalidURL)
-        let got = await dessertsViewModel.getDesserts()
-        
-        XCTAssert(got.isEmpty)
-    }
-
+    // Test verifies that the view model throws response error if the server responds with error.
     func testGetDessertsResponseError() async throws {
         networkingMock.result = .failure(NetworkError.responseError)
         let got = await dessertsViewModel.getDesserts()
@@ -60,6 +46,7 @@ final class DessertsView_ViewModelTests: XCTestCase {
         XCTAssert(got.isEmpty)
     }
     
+    // Test verifies that the view model throws parsing error if the json parser responds with error.
     func testGetDessertsParsingError() async throws {
         networkingMock.result = .success(Data())
         let got = await dessertsViewModel.getDesserts()

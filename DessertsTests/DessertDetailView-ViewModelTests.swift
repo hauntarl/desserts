@@ -21,6 +21,7 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         dessertDetailViewModel = .init(networkManager: networkManager)
     }
 
+    // Test verifies whether the getDessertDetails() method successfully fetches, parses the dessert details.
     func testGetDessertDetailsSuccess() async throws {
         let expected = DessertDetail(
             name: "Chocolate Gateau",
@@ -47,13 +48,16 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         XCTAssertEqual(expected, got!, "Parsed object does not match expected object.")
     }
     
-    func testGetDessertDetailsInvalidURL() async throws {
-        networkingMock.result = .failure(NetworkError.invalidURL)
+    // Test verifies whether the getDessertDetails() marks object that don't have either id, name, or thumbnail as
+    // invalid.
+    func testGetDessertDetailsEmptyOrNullFields() async throws {
+        networkingMock.result = .success(DessertDetailTests.dessertDetailNullFieldsJSON)
         let got = await dessertDetailViewModel.getDessertDetails(for: "52776")
         
         XCTAssertNil(got)
     }
 
+    // Test verifies that the view model throws response error if the server responds with error.
     func testGetDessertDetailsResponseError() async throws {
         networkingMock.result = .failure(NetworkError.responseError)
         let got = await dessertDetailViewModel.getDessertDetails(for: "52776")
@@ -61,6 +65,7 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         XCTAssertNil(got)
     }
     
+    // Test verifies that the view model throws parsing error if the json parser responds with error.
     func testGetDessertDetailsParsingError() async throws {
         networkingMock.result = .success(Data())
         let got = await dessertDetailViewModel.getDessertDetails(for: "52776")
@@ -68,6 +73,7 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         XCTAssertNil(got)
     }
     
+    // Test verifies that the updateSections() method successfully calculates available sections from dessert details.
     func testUpdateSectionsSuccess() async throws {
         let expected: [DessertDetailView.SectionId] = [.info, .items, .recipe, .links]
         
@@ -78,7 +84,22 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         }
         let got = dessertDetailViewModel.updateSections(for: dessertDetails)
         
-        XCTAssertFalse(got.isEmpty)
+        XCTAssert(!got.isEmpty)
+        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
+    }
+    
+    // Test verifies that the updateSections() method successfully filters unavailable sections from dessert details.
+    func testUpdateSectionsFieldsNotPresent() async throws {
+        let expected: [DessertDetailView.SectionId] = [.info]
+        
+        networkingMock.result = .success(DessertItemTests.dessertItemResultJSON)
+        guard let dessertDetails = await dessertDetailViewModel.getDessertDetails(for: "52776") else {
+            XCTFail("Details should be parsed correctly.")
+            return
+        }
+        let got = dessertDetailViewModel.updateSections(for: dessertDetails)
+        
+        XCTAssert(!got.isEmpty)
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     

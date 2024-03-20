@@ -98,12 +98,13 @@ final class NetworkManagerTests: XCTestCase {
     func testNetworkManagerInvalidURL() async throws {
         do {
             let _: DessertItemResult = try await networkManager.loadData(from: "")
-            XCTFail("Should not succeed")
+            XCTFail("Expected to throw invalid url error")
         } catch NetworkError.invalidURL {
             // passing condition
             return
         } catch {
-            XCTFail("Unexpected error")
+            XCTFail("Expected to throw invalid url error")
+            return
         }
     }
     
@@ -113,12 +114,13 @@ final class NetworkManagerTests: XCTestCase {
         do {
             let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
             let _: DessertItemResult = try await networkManager.loadData(from: urlString)
-            XCTFail("Should not succeed")
+            XCTFail("Expected to throw response error")
         } catch NetworkError.responseError {
             // passing condition
             return
         } catch {
-            XCTFail("Unexpected error")
+            XCTFail("Expected to throw response error")
+            return
         }
     }
     
@@ -128,7 +130,7 @@ final class NetworkManagerTests: XCTestCase {
         do {
             let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
             let _: DessertItemResult = try await networkManager.loadData(from: urlString)
-            XCTFail("Should not succeed")
+            XCTFail("Expected to throw parsing error")
         } catch {
             // passing condition
             return
