@@ -41,32 +41,28 @@ final class DessertsView_ViewModelTests: XCTestCase {
         ]
         
         networkingMock.result = .success(DessertItemTests.dessertItemResultJSON)
-        await dessertsViewModel.getDesserts()
-        let got = dessertsViewModel.desserts
+        let got = await dessertsViewModel.getDesserts()
         
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     
     func testGetDessertsInvalidURL() async throws {
         networkingMock.result = .failure(NetworkError.invalidURL)
-        await dessertsViewModel.getDesserts()
-        let got = dessertsViewModel.desserts
+        let got = await dessertsViewModel.getDesserts()
         
         XCTAssert(got.isEmpty)
     }
 
     func testGetDessertsResponseError() async throws {
         networkingMock.result = .failure(NetworkError.responseError)
-        await dessertsViewModel.getDesserts()
-        let got = dessertsViewModel.desserts
+        let got = await dessertsViewModel.getDesserts()
         
         XCTAssert(got.isEmpty)
     }
     
     func testGetDessertsParsingError() async throws {
         networkingMock.result = .success(Data())
-        await dessertsViewModel.getDesserts()
-        let got = dessertsViewModel.desserts
+        let got = await dessertsViewModel.getDesserts()
         
         XCTAssert(got.isEmpty)
     }
