@@ -27,6 +27,7 @@ public struct DessertItem: Decodable, Identifiable, Equatable {
      */
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         // Getting rid of null values, and whitespaces.
         self.id = (try container.decodeIfPresent(String.self, forKey: .idMeal) ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -59,5 +60,16 @@ public struct DessertItemResult: Decodable, Equatable {
     /**A custom initializer required for unit testing and mocking data for previews.*/
     public init(meals: [DessertItem]) {
         self.meals = meals
+    }
+    
+    enum CodingKeys: CodingKey {
+        case meals
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Handle null as a possible value of meals attribute
+        self.meals = try container.decodeIfPresent([DessertItem].self, forKey: .meals) ?? []
     }
 }
