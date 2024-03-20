@@ -32,18 +32,17 @@ extension DessertDetailView {
         /**
          Loads the dessert details from [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894) api.
          */
-        public func getDessertDetails(for id: String) async -> DessertDetail? {
+        public func getDessertDetails(for id: String) async -> ViewState<DessertDetail> {
             let urlString = "\(NetworkManager.dessertDetailsURL)?i=\(id)"
             do {
                 let result: DessertDetailResult = try await networkManager.loadData(from: urlString)
                 // Verify if required fields are present in the result
                 guard let dessert = result.meals.first, !dessert.name.isEmpty, dessert.thumbnail != .none else {
-                    return nil
+                    return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
                 }
-                return dessert
+                return .success(data: dessert)
             } catch {
-                print(error.localizedDescription)
-                return nil
+                return .failure(message: "\(error.localizedDescription)")
             }
         }
         

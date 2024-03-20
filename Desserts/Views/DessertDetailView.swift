@@ -21,6 +21,7 @@ public struct DessertDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel = ViewModel()
+    @State private var viewState: ViewState<DessertDetail> = .loading
     
     @State private var dessert: DessertDetail?
     @State private var steps = 1
@@ -32,76 +33,106 @@ public struct DessertDetailView: View {
     public var body: some View {
         // ScrollViewReader is used to jump to different sections of the view
         ZStack {
-            drawBackground(using: dessert?.thumbnail)
-            details
+            if let dessert {
+                drawBackground(using: dessert.thumbnail)
+            } else {
+                Rectangle()
+                    .foregroundStyle(.thinMaterial)
+                    .ignoresSafeArea()
+            }
+            
+            switch viewState {
+            case .loading:
+                ProgressView()
+            case .success(let dessert):
+                details(for: dessert)
+            case .failure(let message):
+                ContentUnavailable(
+                    image: "RecipeUnavailable",
+                    title: "Recipe unavailable :(",
+                    message: message
+                ) {
+                    Task { await getDessertDetails() }
+                }
+            }
         }
         .navigationBarBackButtonHidden()
+        .safeAreaInset(edge: .top) {
+            backButton {
+                dismiss()
+            }
+        }
         .sheet(item: $recipeURL) { url in
             WebView(url: url)
                 .ignoresSafeArea()
         }
         .task {
-            guard let dessert = await viewModel.getDessertDetails(for: id) else {
-                return
-            }
-            withAnimation(.bouncy) {
+            await getDessertDetails()
+        }
+    }
+    
+    private func getDessertDetails() async {
+        withAnimation {
+            self.viewState = .loading
+        }
+        
+        let viewState = await viewModel.getDessertDetails(for: id)
+        withAnimation(.easeOut(duration: 0.5)) {
+            self.viewState = viewState
+            switch viewState {
+            case .success(let dessert):
                 self.dessert = dessert
                 self.sections = viewModel.updateSections(for: dessert)
+            default:
+                break
             }
         }
     }
     
-    private var details: some View {
+    private func details(for dessert: DessertDetail) -> some View {
         ScrollViewReader { proxy in
             List {
-                if let dessert {
+                Section {
+                    Text(dessert.name).bold()
+                    image(from: dessert.thumbnail)
+                    tags(from: dessert.formattedTags)
+                }
+                .id(SectionId.info)
+                
+                // If ingredients are missing, skip this section
+                if sections.contains(.items) {
                     Section {
-                        Text(dessert.name).bold()
-                        image(from: dessert.thumbnail)
-                        tags(from: dessert.formattedTags)
+                        loadItems(from: dessert.ingredients)
+                    } header: {
+                        header(for: SectionId.items.rawValue)
                     }
-                    .id(SectionId.info)
-                    
-                    // If ingredients are missing, skip this section
-                    if sections.contains(.items) {
-                        Section {
-                            loadItems(from: dessert.ingredients)
-                        } header: {
-                            header(for: SectionId.items.rawValue)
-                        }
-                        .id(SectionId.items)
+                    .id(SectionId.items)
+                }
+                
+                // If instructions are missing, skip this section
+                if sections.contains(.recipe) {
+                    Section {
+                        loadRecipe(from: dessert.instructions, proxy: proxy)
+                    } header: {
+                        header(for: SectionId.recipe.rawValue)
                     }
-                    
-                    // If instructions are missing, skip this section
-                    if sections.contains(.recipe) {
-                        Section {
-                            loadRecipe(from: dessert.instructions, proxy: proxy)
-                        } header: {
-                            header(for: SectionId.recipe.rawValue)
-                        }
-                        .id(SectionId.recipe)
+                    .id(SectionId.recipe)
+                }
+                
+                // If both youtube and recipe links are missing, skip this section
+                if sections.contains(.links) {
+                    Section {
+                        // Opens the youtube link in a browser
+                        youtubeLink(for: dessert.youtubeLink)
+                        // Opens the recipe website in a WebView through .sheet() modifier
+                        webView(for: dessert.sourceLink)
+                    } header: {
+                        header(for: SectionId.links.rawValue)
                     }
-                    
-                    // If both youtube and recipe links are missing, skip this section
-                    if sections.contains(.links) {
-                        Section {
-                            // Opens the youtube link in a browser
-                            youtubeLink(for: dessert.youtubeLink)
-                            // Opens the recipe website in a WebView through .sheet() modifier
-                            webView(for: dessert.sourceLink)
-                        } header: {
-                            header(for: SectionId.links.rawValue)
-                        }
-                        .id(SectionId.links)
-                    }
+                    .id(SectionId.links)
                 }
             }
             .shadow(radius: 10)
-            .safeAreaInset(edge: .top) {
-                backButton {
-                    dismiss()
-                }
-            }
             .safeAreaInset(edge: .bottom) {
                 sectionPicker(proxy)
             }

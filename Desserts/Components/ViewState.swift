@@ -12,7 +12,7 @@ import SwiftUI
  */
 public enum ViewState<T> {
     case loading
-    case success(desserts: T)
+    case success(data: T)
     // The message is of type LocalizedStringKey because Text view supports embedding markdown via LocalizedStringKey.
     case failure(message: LocalizedStringKey)
 }

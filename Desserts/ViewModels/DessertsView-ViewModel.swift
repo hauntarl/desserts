@@ -45,7 +45,7 @@ extension DessertsView {
                 guard !desserts.isEmpty else {
                     return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
                 }
-                return .success(desserts: desserts)
+                return .success(data: desserts)
             } catch {
                 return .failure(message: "\(error.localizedDescription)")
             }
