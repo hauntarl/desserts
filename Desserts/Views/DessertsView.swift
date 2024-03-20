@@ -13,53 +13,52 @@ import SwiftUI
  */
 public struct DessertsView: View {
     @State private var viewModel = ViewModel()
+    @State private var viewState = ViewState.loading
+    
     @State private var desserts = [DessertItem]()  // Stores api results
     @State private var filtered = [DessertItem]()  // Provides filtered view
     @State private var searchText = ""
     
     public var body: some View {
         NavigationStack {
-            List(filtered) { item in
-                NavigationLink(value: item.id) {
-                    itemLabel(for: item)
+            Group {
+                switch viewState {
+                case .loading:
+                    ProgressView()
+                case .success:
+                    dessertItems
+                case .failure(let message):
+                    contentUnavailable(reason: message)
                 }
             }
-            .task {
-                // Load desserts when the view appears
-                await getDesserts()
-            }
-            .refreshable {
-                // Pull to refresh
-                await getDesserts()
-            }
             .navigationTitle("Desserts")
-            .navigationDestination(for: String.self) { id in
-                // Push DessertsDetail view
-                DessertDetailView(id: id)
+        }
+        .task {
+            // Load desserts when the view appears
+            await getDesserts()
+        }
+    }
+    
+    private var dessertItems: some View {
+        List(filtered) { item in
+            NavigationLink(value: item.id) {
+                itemLabel(for: item)
             }
+        }
+        .refreshable {
+            // Pull to refresh
+            await getDesserts()
         }
         .searchable(
             text: $searchText,
             prompt: "What are you craving for?"
         )  // Filter results based on user's search query
         .onChange(of: searchText) {
-            withAnimation {
-                filterDesserts()
-            }
-        }
-    }
-    
-    private func getDesserts() async {
-        let items = await viewModel.getDesserts()
-        withAnimation {
-            self.desserts = items
             filterDesserts()
         }
-    }
-    
-    private func filterDesserts() {
-        filtered = searchText.isEmpty ? desserts : desserts.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText)
+        .navigationDestination(for: String.self) { id in
+            // Push DessertsDetail view
+            DessertDetailView(id: id)
         }
     }
     
@@ -77,6 +76,54 @@ public struct DessertsView: View {
             }
             .frame(width: 30, height: 30)
             .clipShape(.circle)
+        }
+    }
+    
+    private func contentUnavailable(reason: LocalizedStringKey) -> some View {
+        ContentUnavailableView {
+            VStack {
+                Image("DessertsUnavailable")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                
+                Text("Unavailable at the moment")
+                    .font(.title)
+                
+                (Text(reason) + Text("**Tap to retry!**"))
+                    .font(.callout)
+            }
+        }
+        .onTapGesture {
+            Task {
+                await getDesserts()
+            }
+        }
+    }
+    
+    private func getDesserts() async {
+        withAnimation {
+            self.viewState = .loading
+        }
+        
+        let viewState = await viewModel.getDesserts()
+        withAnimation(.easeOut(duration: 0.5)) {
+            self.viewState = viewState
+            switch viewState {
+            case .success(let desserts):
+                self.desserts = desserts
+                self.filtered = desserts
+            default:
+                break
+            }
+        }
+    }
+    
+    private func filterDesserts() {
+        withAnimation(.bouncy(duration: 0.5)) {
+            filtered = searchText.isEmpty ? desserts : desserts.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText)
+            }
         }
     }
 }

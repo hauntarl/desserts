@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension DessertsView {
     /**
@@ -32,19 +33,35 @@ extension DessertsView {
          Loads the list of desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert) api.
          Sorts them in ascending order based on the `name` key.
          */
-        public func getDesserts() async -> [DessertItem] {
+        public func getDesserts() async -> ViewState {
             let urlString = NetworkManager.dessertItemsURL
             do {
                 let result: DessertItemResult = try await networkManager.loadData(from: urlString)
                 // Remove desserts that have missing id, name, or thumbnail.
-                return result.meals
+                let desserts = result.meals
                     .filter { !$0.id.isEmpty && !$0.name.isEmpty && $0.thumbnail != .none}
                     .sorted { $0.name < $1.name }
+                
+                guard !desserts.isEmpty else {
+                    return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
+                }
+                return .success(desserts: desserts)
             } catch {
-                // Purposefully left error handling, to keep the views and view models as simple as possible.
-                print(error.localizedDescription)
-                return []
+                return .failure(message: "\(error.localizedDescription)")
             }
         }
+    }
+    
+    /**
+     ViewState for the DessertView
+     
+     Utilized to show different views depending on the state of this enum.
+     */
+    public enum ViewState {
+        case loading
+        case success(desserts: [DessertItem])
+        // The message is of type LocalizedStringKey because Text view supports embedding markdown via
+        // LocalizedStringKey.
+        case failure(message: LocalizedStringKey)
     }
 }

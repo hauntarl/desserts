@@ -33,25 +33,56 @@ final class DessertsView_ViewModelTests: XCTestCase {
         ]
         
         networkingMock.result = .success(DessertItemTests.dessertItemResultJSON)
-        let got = await dessertsViewModel.getDesserts()
+        let viewState = await dessertsViewModel.getDesserts()
         
-        XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
+        switch viewState {
+        case .success(let got):
+            XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
+        default:
+            XCTFail("Expected success view state")
+        }
     }
     
-    // Test verifies that the view model throws response error if the server responds with error.
+    // Test verifies that the view model returns empty response error if there the desserts list is empty.
+    func testGetDessertsEmptyResponse() async throws {
+        networkingMock.result = .success(DessertItemTests.dessertItemResultEmptyJSON)
+        let viewState = await dessertsViewModel.getDesserts()
+        
+        switch viewState {
+        case .failure:
+            // passing condition
+            return
+        default:
+            XCTFail("Expected failure view state")
+        }
+    }
+    
+    // Test verifies that the view model returns response error if the server responds with error.
     func testGetDessertsResponseError() async throws {
         networkingMock.result = .failure(NetworkError.responseError)
-        let got = await dessertsViewModel.getDesserts()
+        let viewState = await dessertsViewModel.getDesserts()
         
-        XCTAssert(got.isEmpty)
+        switch viewState {
+        case .failure:
+            // passing condition
+            return
+        default:
+            XCTFail("Expected failure view state")
+        }
     }
     
-    // Test verifies that the view model throws parsing error if the json parser responds with error.
+    // Test verifies that the view model returns parsing error if the json parser responds with error.
     func testGetDessertsParsingError() async throws {
         networkingMock.result = .success(Data())
-        let got = await dessertsViewModel.getDesserts()
+        let viewState = await dessertsViewModel.getDesserts()
         
-        XCTAssert(got.isEmpty)
+        switch viewState {
+        case .failure:
+            // passing condition
+            return
+        default:
+            XCTFail("Expected failure view state")
+        }
     }
 
 }

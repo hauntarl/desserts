@@ -89,15 +89,17 @@ extension DessertDetailView {
             Link(destination: url) {
                 Label("Youtube", systemImage: "video.fill.badge.checkmark")
             }
+            .foregroundStyle(.red.opacity(0.7))
         }
     }
     
-    func drawBackground(using thumbnail: URL?) -> some View {
+    func drawBackground(using url: URL?) -> some View {
         GeometryReader { _ in
-            NetworkImage(url: thumbnail) { image in
+            NetworkImage(url: url) { image in
                 image
                     .resizable()
                     .scaledToFill()
+                    .overlay { Color.black.opacity(0.4) }
                     .blur(radius: 20)
                     .ignoresSafeArea()
             } placeholder: {
