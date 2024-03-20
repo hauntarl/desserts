@@ -19,33 +19,55 @@ final class NetworkManagerTests: XCTestCase {
         networkManager = NetworkManager(using: networking)
     }
 
+    // Test verifies that the network manager successfully loads and parses list of desserts.
     func testNetworkManagerDesertItemResultSuccess() async throws {
-        networking.result = .success(DessertItemTests.dessertItemResultJSON)
         let expected = DessertItemResult(meals: [
-            DessertItem(
+            .init(
                 id: "53049",
                 name: "Apam balik",
                 thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
             ),
-            DessertItem(
-                id: "52893",
-                name: "Apple & Blackberry Crumble",
-                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg")
+            .init(
+                id: "53049",
+                name: "Apam balik",
+                thumbnail: nil
             ),
-            DessertItem(
-                id: "52768",
-                name: "Apple Frangipan Tart",
-                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/wxywrq1468235067.jpg")
+            .init(
+                id: "53049",
+                name: "Apam balik",
+                thumbnail: nil
+            ),
+            .init(
+                id: "53049",
+                name: "",
+                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            ),
+            .init(
+                id: "53049",
+                name: "",
+                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            ),
+            .init(
+                id: "",
+                name: "Apam balik",
+                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            ),
+            .init(
+                id: "",
+                name: "Apam balik",
+                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
             )
         ])
         
+        networking.result = .success(DessertItemTests.dessertItemResultJSON)
         let urlString = "\(NetworkManager.dessertItemsURL)?c=Dessert"
         let got: DessertItemResult = try await networkManager.loadData(from: urlString)
+        
         XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
     }
     
+    // Test verifies that the network manager successfully loads and parses dessert details.
     func testNetworkManagerDesertDetailResultSuccess() async throws {
-        networking.result = .success(DessertDetailTests.dessertDetailJSON)
         let expected = DessertDetail(
             name: "Chocolate Gateau",
             thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg"),
@@ -64,6 +86,7 @@ final class NetworkManagerTests: XCTestCase {
             sourceLink: URL(string: "http://www.goodtoknow.co.uk/recipes/536028/chocolate-gateau")
         )
         
+        networking.result = .success(DessertDetailTests.dessertDetailJSON)
         let urlString = "\(NetworkManager.dessertItemsURL)?i=52776"
         let got: DessertDetailResult = try await networkManager.loadData(from: urlString)
         
@@ -71,6 +94,7 @@ final class NetworkManagerTests: XCTestCase {
         XCTAssertEqual(expected, got.meals.first!, "Parsed object does not match expected object.")
     }
     
+    // Test verifies that the network manager throws invalid url error if the provided url string is invalid.
     func testNetworkManagerInvalidURL() async throws {
         do {
             let _: DessertItemResult = try await networkManager.loadData(from: "")
@@ -83,6 +107,7 @@ final class NetworkManagerTests: XCTestCase {
         }
     }
     
+    // Test verifies that the network manager successfully throws errors thrown by the session manager.
     func testNetworkManagerResponseError() async throws {
         networking.result = .failure(NetworkError.responseError)
         do {
@@ -97,6 +122,7 @@ final class NetworkManagerTests: XCTestCase {
         }
     }
     
+    // Test verifies that the network manager successfully throws errors thrown by the json parser.
     func testNetworkManagerParsingError() async throws {
         networking.result = .success(Data())
         do {
