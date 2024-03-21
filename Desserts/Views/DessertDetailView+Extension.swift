@@ -8,7 +8,6 @@
 import SwiftUI
 
 extension DessertDetailView {
-    
     func backButton(_ action: @escaping () -> Void) -> some View {
         HStack {
             Button("Back", systemImage: "chevron.left") {
@@ -39,13 +38,13 @@ extension DessertDetailView {
                 .resizable()
                 .scaledToFit()
         } placeholder: {
-            // As the parent doesn't explicitly specify a size of the images, the images size themselves based on
-            // their intrinsic dimensions. If the placeholder view has different dimensions, the transition will
+            // When the container don't explicitly suggest a size for the images, the images size themselves based on
+            // their intrinsic dimensions. If the placeholder image has different dimensions, the transition will
             // cause a jump in the container dimensions.
             //
-            // In order to get rid of this unintended effect, I've added a Placeholder image in the project's
+            // In order to get rid of this unintended stutter, I've added a `Placeholder` image in the project's
             // asset. When you apply a .hidden() modifier on a view, and overlay the hidden view with some other
-            // view, this view can take up to the dimensions of the hidden view.
+            // view, this overlay can take up to the dimensions of the hidden view.
             //
             // The above process makes sure that the placeholder view will result in same size as the actual image
             // and this helps avoid any stutter or jump while transitioning from placeholder to content.
@@ -93,6 +92,10 @@ extension DessertDetailView {
         }
     }
     
+    /**
+     A variation of the `BackgroundView`, instead of loading the image from assets,
+     it loads them from the provided image url.
+     */
     struct DessertDetailBackground<Content: View>: View {
         let url: URL?
         @ViewBuilder let content: () -> Content

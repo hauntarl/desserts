@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+/**
+ This view is used when the [themealdb.com](https://themealdb.com/api.php) api responds with
+ an error message.
+ 
+ - Parameters:
+    - image: Loads an image from the assets folder by the `image` value
+    - title: The title text for this view
+    - message: A message that supports markdown syntax
+    - retryAction: An action to perform when user taps to retry
+ */
 struct ErrorView: View {
     let image: String
     let title: String
@@ -24,10 +34,10 @@ struct ErrorView: View {
                 Text(title)
                     .font(.title)
                 
-                (Text(message) + Text("**Tap to retry!**"))
+                (Text(message) + Text("\n**Tap to retry!**"))
                     .font(.callout)
             }
-            .padding()
+            .padding(40)
             .background {
                 RoundedRectangle(cornerRadius: 25)
                     .foregroundStyle(.regularMaterial)
@@ -45,7 +55,7 @@ struct ErrorView: View {
         ErrorView(
             image: "DessertsUnavailable",
             title: "Content Unavailable",
-            message: "**[themealdb](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)** returned either empty or invalid data."
+            message: "**[themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert)** returned either empty or invalid data."
         ) {
             // Do nothing
         }

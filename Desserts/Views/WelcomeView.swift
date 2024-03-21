@@ -7,22 +7,14 @@
 
 import SwiftUI
 
+/**
+ The first view of this application, it displays a background image with a message.
+ */
 struct WelcomeView: View {
-    struct TextWithID: Identifiable {
-        let id = UUID()
-        let text: String
-    }
-    
     let layouts = [AnyLayout(ZStackLayout()), AnyLayout(GridLayout())]
-    let text1: [TextWithID] = "Making"
-        .split(separator: "")
-        .map { TextWithID(text: String($0)) }
-    let text2: [TextWithID] = "Fetch"
-        .split(separator: "")
-        .map { TextWithID(text: String($0)) }
-    let text3: [TextWithID] = "Happen"
-        .split(separator: "")
-        .map { TextWithID(text: String($0)) }
+    let letters = "Making Fetch Happen...".split(separator: " ").map { word in
+        word.split(separator: "").map { String($0) }
+    }
     
     @State private var showingWelcomeView = true
     @State private var currentLayout = 0
@@ -35,19 +27,11 @@ struct WelcomeView: View {
         if showingWelcomeView {
             BackgroundView(image: "DessertsWelcomeBackground") {
                 layout {
-                    GridRow {
-                        ForEach(text1) {
-                            Text($0.text)
-                        }
-                    }
-                    GridRow {
-                        ForEach(text2) {
-                            Text($0.text)
-                        }
-                    }
-                    GridRow {
-                        ForEach(text3) {
-                            Text($0.text)
+                    ForEach(0..<letters.count, id: \.self) { i in
+                        GridRow {
+                            ForEach(0..<letters[i].count, id: \.self) { j in
+                                Text(letters[i][j])
+                            }
                         }
                     }
                 }
@@ -74,7 +58,7 @@ struct WelcomeView: View {
         
         withAnimation(
             .easeOut(duration: 0.5)
-            .delay(4)
+            .delay(3.5)
         ) {
             showingWelcomeView = false
         }

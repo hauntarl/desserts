@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+/**
+ A view that wraps the content around a `ZStack` and puts a background image underneath.
+ 
+ - Parameters:
+    - image: Loads an image from the assets folder by the `image` value
+    - content: The content that needs to be wrapped by this `BackgroundView`
+ */
 struct BackgroundView<Content: View>: View {
     let image: String
     @ViewBuilder let content: () -> Content
