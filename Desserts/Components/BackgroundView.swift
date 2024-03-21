@@ -29,8 +29,9 @@ struct BackgroundView<Content: View>: View {
                         Rectangle()
                             .foregroundStyle(.ultraThinMaterial)
                     }
-                    .ignoresSafeArea()
             }
+            .clipped()
+            .ignoresSafeArea()
             
             content()
         }

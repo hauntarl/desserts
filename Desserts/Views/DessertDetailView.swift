@@ -51,6 +51,8 @@ public struct DessertDetailView: View {
                 .transition(.opacity)
             }
         }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $recipeURL) { url in
             WebView(url: url)
                 .ignoresSafeArea()
@@ -144,7 +146,6 @@ public struct DessertDetailView: View {
                     proxy.scrollTo(SectionId.recipe, anchor: .top)
                 }
             }
-            .foregroundStyle(.indigo.opacity(0.7))
             .id(SectionId.readMoreButton)
         }
     }

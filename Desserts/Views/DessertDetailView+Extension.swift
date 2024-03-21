@@ -117,8 +117,9 @@ extension DessertDetailView {
                         Rectangle()
                             .foregroundStyle(.ultraThinMaterial)
                     }
-                    .ignoresSafeArea()
                 }
+                .clipped()
+                .ignoresSafeArea()
                 
                 content()
             }
