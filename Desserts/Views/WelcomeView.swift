@@ -58,7 +58,7 @@ struct WelcomeView: View {
         
         withAnimation(
             .easeOut(duration: 0.5)
-            .delay(3.5)
+            .delay(5)
         ) {
             showingWelcomeView = false
         }
