@@ -51,12 +51,6 @@ public struct DessertDetailView: View {
                 .transition(.opacity)
             }
         }
-        .navigationBarBackButtonHidden()
-        .safeAreaInset(edge: .top) {
-            backButton {
-                dismiss()
-            }
-        }
         .sheet(item: $recipeURL) { url in
             WebView(url: url)
                 .ignoresSafeArea()
