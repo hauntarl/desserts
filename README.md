@@ -49,7 +49,7 @@ Take Home Exercise from **[Fetch](https://fetch.com/)**: A native iOS app that a
     - Provided a way for users to search through the dessert recipes.
     - Added pull to refresh functionality.
 - `DessertsDetailView`
-    - Placed segmented tab view at the bottom for users to jump through different sections in the recipe.
+    - Placed segmented `PickerView` at the bottom for users to jump through different sections in the recipe.
     - Added a `Read more` button to the instruction steps for improved user experience.
     - Provided an article link for the recipe that opens via `WebView` integration.
     - Provided a YouTube link for the recipe that opens in the device's browser.
