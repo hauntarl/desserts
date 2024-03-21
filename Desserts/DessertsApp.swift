@@ -11,7 +11,8 @@ import SwiftUI
 struct DessertsApp: App {
     var body: some Scene {
         WindowGroup {
-            DessertsView()
+            WelcomeView()
+                .preferredColorScheme(.dark)
         }
     }
 }

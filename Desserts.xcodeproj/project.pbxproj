@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC2A18032BAB82B400E23B68 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A18022BAB82B400E23B68 /* WelcomeView.swift */; };
+		FC2A18052BAB8B0000E23B68 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A18042BAB8B0000E23B68 /* BackgroundView.swift */; };
+		FC2A18082BABB51C00E23B68 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2A18072BABB51C00E23B68 /* Launch Screen.storyboard */; };
 		FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F202BA813B6009C3867 /* DessertDetail.swift */; };
 		FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F222BA816E8009C3867 /* DessertItem.swift */; };
 		FC6D2F252BA81C36009C3867 /* DessertItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */; };
@@ -29,7 +32,7 @@
 		FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A292BA9B455006CD63B /* ImageCache.swift */; };
 		FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */; };
 		FCF4D9052BAAAF47001417B0 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF4D9042BAAAF47001417B0 /* ViewState.swift */; };
-		FCF4D9072BAAB020001417B0 /* ContentUnavailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */; };
+		FCF4D9072BAAB020001417B0 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF4D9062BAAB020001417B0 /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FC2A18022BAB82B400E23B68 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		FC2A18042BAB8B0000E23B68 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		FC2A18072BABB51C00E23B68 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		FC6D2F202BA813B6009C3867 /* DessertDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetail.swift; sourceTree = "<group>"; };
 		FC6D2F222BA816E8009C3867 /* DessertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItem.swift; sourceTree = "<group>"; };
 		FC6D2F242BA81C36009C3867 /* DessertItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertItemTests.swift; sourceTree = "<group>"; };
@@ -67,7 +73,7 @@
 		FCC79A292BA9B455006CD63B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
 		FCF4D9042BAAAF47001417B0 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
-		FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUnavailable.swift; sourceTree = "<group>"; };
+		FCF4D9062BAAB020001417B0 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +132,7 @@
 				FC811C372BA80AB600A3BA2A /* DessertsApp.swift */,
 				FC811C3B2BA80AB700A3BA2A /* Assets.xcassets */,
 				FC811C3D2BA80AB700A3BA2A /* Preview Content */,
+				FC2A18072BABB51C00E23B68 /* Launch Screen.storyboard */,
 			);
 			path = Desserts;
 			sourceTree = "<group>";
@@ -163,9 +170,13 @@
 		FCB7FC192BA8DEBD00B8644B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FC2A18022BAB82B400E23B68 /* WelcomeView.swift */,
 				FC811C392BA80AB600A3BA2A /* DessertsView.swift */,
 				FCB7FC1F2BA901D600B8644B /* DessertDetailView.swift */,
 				FCC79A272BA98EC7006CD63B /* DessertDetailView+Extension.swift */,
+				FC2A18042BAB8B0000E23B68 /* BackgroundView.swift */,
+				FCF4D9062BAAB020001417B0 /* ErrorView.swift */,
+				FCB7FC232BA921A900B8644B /* WebView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,6 +184,7 @@
 		FCB7FC1A2BA8DF3100B8644B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				FCF4D9042BAAAF47001417B0 /* ViewState.swift */,
 				FCB7FC1B2BA8DF6100B8644B /* DessertsView-ViewModel.swift */,
 				FCB7FC212BA9021C00B8644B /* DessertDetailView-ViewModel.swift */,
 			);
@@ -182,11 +194,8 @@
 		FCB7FC272BA9303200B8644B /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				FCB7FC232BA921A900B8644B /* WebView.swift */,
 				FCC79A292BA9B455006CD63B /* ImageCache.swift */,
 				FCC79A2B2BA9B600006CD63B /* NetworkImage.swift */,
-				FCF4D9042BAAAF47001417B0 /* ViewState.swift */,
-				FCF4D9062BAAB020001417B0 /* ContentUnavailable.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -272,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC2A18082BABB51C00E23B68 /* Launch Screen.storyboard in Resources */,
 				FC811C3F2BA80AB700A3BA2A /* Preview Assets.xcassets in Resources */,
 				FC811C3C2BA80AB700A3BA2A /* Assets.xcassets in Resources */,
 			);
@@ -294,15 +304,17 @@
 				FC811C3A2BA80AB600A3BA2A /* DessertsView.swift in Sources */,
 				FCB7FC242BA921A900B8644B /* WebView.swift in Sources */,
 				FC6D2F232BA816E8009C3867 /* DessertItem.swift in Sources */,
+				FC2A18032BAB82B400E23B68 /* WelcomeView.swift in Sources */,
 				FCB7FC222BA9021C00B8644B /* DessertDetailView-ViewModel.swift in Sources */,
 				FCB7FC202BA901D600B8644B /* DessertDetailView.swift in Sources */,
 				FCC79A282BA98EC7006CD63B /* DessertDetailView+Extension.swift in Sources */,
+				FC2A18052BAB8B0000E23B68 /* BackgroundView.swift in Sources */,
 				FCC79A2C2BA9B600006CD63B /* NetworkImage.swift in Sources */,
 				FCC79A2A2BA9B455006CD63B /* ImageCache.swift in Sources */,
 				FCF4D9052BAAAF47001417B0 /* ViewState.swift in Sources */,
 				FC94FC5C2BA8537B00E60D24 /* NetworkManager.swift in Sources */,
 				FC6D2F212BA813B6009C3867 /* DessertDetail.swift in Sources */,
-				FCF4D9072BAAB020001417B0 /* ContentUnavailable.swift in Sources */,
+				FCF4D9072BAAB020001417B0 /* ErrorView.swift in Sources */,
 				FCB7FC1C2BA8DF6100B8644B /* DessertsView-ViewModel.swift in Sources */,
 				FC811C382BA80AB600A3BA2A /* DessertsApp.swift in Sources */,
 				FC94FC622BA85CB600E60D24 /* Networking.swift in Sources */,
@@ -463,11 +475,12 @@
 				DEVELOPMENT_TEAM = N477T5ZBLS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Desserts/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Desserts;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -494,11 +507,12 @@
 				DEVELOPMENT_TEAM = N477T5ZBLS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Desserts/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Desserts;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
