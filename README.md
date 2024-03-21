@@ -14,8 +14,8 @@ Take Home Exercise from **[Fetch](https://fetch.com/)**: A native iOS app that a
 
 ## Previews
 
-> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertsView.gif" width="200"> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertDetailView.gif" width="200">
-> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertsError.gif" width="200"> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertDetailError.gif" width="200">
+> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertsView.gif" width="150"> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertDetailView.gif" width="150">
+> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertsError.gif" width="150"> <img src="https://github.com/hauntarl/hauntarl/blob/master/desserts/DessertDetailError.gif" width="150">
 
 ## Features
 
