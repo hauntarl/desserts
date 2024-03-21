@@ -144,6 +144,7 @@ public struct DessertDetailView: View {
                     proxy.scrollTo(SectionId.recipe, anchor: .top)
                 }
             }
+            .foregroundStyle(.indigo.opacity(0.7))
             .id(SectionId.readMoreButton)
         }
     }
