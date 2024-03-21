@@ -21,28 +21,36 @@ public struct DessertsView: View {
     
     public var body: some View {
         NavigationStack {
-            Group {
+            BackgroundView(image: "DessertsBackground") {
                 switch viewState {
                 case .loading:
                     ProgressView()
+                        .transition(.opacity)
                 case .success:
                     dessertItems
+                        .transition(.move(edge: .trailing))
                 case .failure(let message):
-                    ContentUnavailable(
+                    ErrorView(
                         image: "DessertsUnavailable",
-                        title: "Unavailable at the moment",
+                        title: "No Doughnuts :(",
                         message: message
                     ) {
-                        Task { await getDesserts() }
-                    }
+                        withAnimation {
+                            viewState = .loading
+                        }
+                        await getDesserts()
+                    }  // Try reloading desserts when user clicks Tap to retry
+                    .transition(.opacity)
                 }
             }
             .navigationTitle("Desserts")
         }
         .task {
-            // Load desserts when the view appears
+            withAnimation {
+                viewState = .loading
+            }
             await getDesserts()
-        }
+        }  // Load desserts when the view appears
     }
     
     private var dessertItems: some View {
@@ -52,13 +60,13 @@ public struct DessertsView: View {
             }
         }
         .refreshable {
-            // Pull to refresh
             await getDesserts()
-        }
+        }  // Pull to refresh
         .searchable(
             text: $searchText,
             prompt: "What are you craving for?"
         )  // Filter results based on user's search query
+        .scrollContentBackground(.hidden)
         .onChange(of: searchText) {
             filterDesserts()
         }
@@ -86,11 +94,8 @@ public struct DessertsView: View {
     }
     
     private func getDesserts() async {
-        withAnimation {
-            self.viewState = .loading
-        }
-        
         let viewState = await viewModel.getDesserts()
+        
         withAnimation(.easeOut(duration: 0.5)) {
             self.viewState = viewState
             switch viewState {
@@ -114,4 +119,5 @@ public struct DessertsView: View {
 
 #Preview {
     DessertsView()
+        .preferredColorScheme(.dark)
 }

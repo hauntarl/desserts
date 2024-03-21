@@ -87,30 +87,37 @@ extension DessertDetailView {
         // Show Link if youtube url is present
         if let url {
             Link(destination: url) {
-                Label("Youtube", systemImage: "video.fill.badge.checkmark")
+                Label("Youtube", systemImage: "rectangle.portrait.and.arrow.forward")
             }
             .foregroundStyle(.red.opacity(0.7))
         }
     }
     
-    func drawBackground(using url: URL?) -> some View {
-        GeometryReader { _ in
-            NetworkImage(url: url) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .overlay { Color.black.opacity(0.4) }
-                    .blur(radius: 20)
-                    .ignoresSafeArea()
-            } placeholder: {
-                Image("Placeholder")
-                    .resizable()
-                    .scaledToFill()
-                    .hidden()
+    struct DessertDetailBackground<Content: View>: View {
+        let url: URL?
+        @ViewBuilder let content: () -> Content
+        
+        var body: some View {
+            ZStack {
+                GeometryReader { _ in
+                    NetworkImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Image("DessertsBackground")
+                            .resizable()
+                            .scaledToFill()
+                    }
+                    .scaleEffect(1.1)
                     .overlay {
-                        Rectangle().foregroundStyle(.thinMaterial)
+                        Rectangle()
+                            .foregroundStyle(.ultraThinMaterial)
                     }
                     .ignoresSafeArea()
+                }
+                
+                content()
             }
         }
     }

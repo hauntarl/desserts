@@ -24,7 +24,7 @@ public struct DessertDetailView: View {
     @State private var viewState: ViewState<DessertDetail> = .loading
     
     @State private var dessert: DessertDetail?
-    @State private var steps = 1
+    @State private var isRecipeExpanded = false
     @State private var recipeURL: URL?
     
     @State private var sections = [SectionId]()
@@ -32,28 +32,23 @@ public struct DessertDetailView: View {
     
     public var body: some View {
         // ScrollViewReader is used to jump to different sections of the view
-        ZStack {
-            if let dessert {
-                drawBackground(using: dessert.thumbnail)
-            } else {
-                Rectangle()
-                    .foregroundStyle(.thinMaterial)
-                    .ignoresSafeArea()
-            }
-            
+        DessertDetailBackground(url: dessert?.thumbnail) {
             switch viewState {
             case .loading:
                 ProgressView()
+                    .transition(.opacity)
             case .success(let dessert):
                 details(for: dessert)
+                    .transition(.move(edge: .trailing))
             case .failure(let message):
-                ContentUnavailable(
+                ErrorView(
                     image: "RecipeUnavailable",
                     title: "Recipe unavailable :(",
                     message: message
                 ) {
-                    Task { await getDessertDetails() }
+                    await getDessertDetails()
                 }
+                .transition(.opacity)
             }
         }
         .navigationBarBackButtonHidden()
@@ -122,10 +117,10 @@ public struct DessertDetailView: View {
                 // If both youtube and recipe links are missing, skip this section
                 if sections.contains(.links) {
                     Section {
-                        // Opens the youtube link in a browser
-                        youtubeLink(for: dessert.youtubeLink)
                         // Opens the recipe website in a WebView through .sheet() modifier
                         webView(for: dessert.sourceLink)
+                        // Opens the youtube link in a browser
+                        youtubeLink(for: dessert.youtubeLink)
                     } header: {
                         header(for: SectionId.links.rawValue)
                     }
@@ -142,20 +137,17 @@ public struct DessertDetailView: View {
     
     @ViewBuilder
     private func loadRecipe(from instructions: [String], proxy: ScrollViewProxy) -> some View {
-        ForEach(instructions[0..<steps], id: \.self) { step in
+        let steps = isRecipeExpanded ? instructions[...] : instructions[0..<1]
+        ForEach(steps, id: \.self) { step in
             Text(step)
         }
         
         // If there's only one step in the instructions then skip this button
         if instructions.count > 1 {
-            Button(steps < instructions.count ? "Read more" : "Close") {
-                withAnimation(.bouncy) {
-                    if steps < instructions.count {
-                        steps += 1
-                    } else {
-                        steps = 1
-                    }
-                    proxy.scrollTo(SectionId.readMoreButton, anchor: .bottom)
+            Button(isRecipeExpanded ? "Close" : "Read more") {
+                withAnimation(.bouncy(duration: 0.5)) {
+                    isRecipeExpanded.toggle()
+                    proxy.scrollTo(SectionId.recipe, anchor: .top)
                 }
             }
             .id(SectionId.readMoreButton)
@@ -171,6 +163,7 @@ public struct DessertDetailView: View {
             } label: {
                 Label("Recipe", systemImage: "book.pages")
             }
+            .foregroundStyle(.mint.opacity(0.7))
         }
     }
     
@@ -186,7 +179,7 @@ public struct DessertDetailView: View {
         .padding([.top, .horizontal])
         .background(.thinMaterial)
         .onChange(of: selectedSection) {
-            withAnimation {
+            withAnimation(.bouncy(duration: 0.5)) {
                 proxy.scrollTo(selectedSection, anchor: .top)
             }
         }
@@ -205,4 +198,5 @@ extension URL: Identifiable {
     NavigationStack {
         DessertDetailView(id: "52894")
     }
+    .preferredColorScheme(.dark)
 }
