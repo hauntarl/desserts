@@ -30,7 +30,6 @@ struct BackgroundView<Content: View>: View {
                             .foregroundStyle(.ultraThinMaterial)
                     }
             }
-            .clipped()
             .ignoresSafeArea()
             
             content()

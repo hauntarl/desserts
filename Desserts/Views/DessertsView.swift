@@ -12,6 +12,8 @@ import SwiftUI
  [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert) api.
  */
 public struct DessertsView: View {
+    private let animationCurve: Animation = .easeOut(duration: 0.5)
+    
     @State private var viewModel = ViewModel()
     @State private var viewState: ViewState<[DessertItem]> = .loading
     
@@ -35,7 +37,7 @@ public struct DessertsView: View {
                         title: "No Doughnuts :(",
                         message: message
                     ) {
-                        withAnimation {
+                        withAnimation(animationCurve) {
                             viewState = .loading
                         }
                         await getDesserts()
@@ -46,7 +48,7 @@ public struct DessertsView: View {
             .navigationTitle("Desserts")
         }
         .task {
-            withAnimation {
+            withAnimation(animationCurve) {
                 viewState = .loading
             }
             await getDesserts()
@@ -59,9 +61,6 @@ public struct DessertsView: View {
                 itemLabel(for: item)
             }
         }
-        .refreshable {
-            await getDesserts()
-        }  // Pull to refresh
         .searchable(
             text: $searchText,
             prompt: "What are you craving for?"
@@ -96,7 +95,7 @@ public struct DessertsView: View {
     private func getDesserts() async {
         let viewState = await viewModel.getDesserts()
         
-        withAnimation(.easeOut(duration: 0.5)) {
+        withAnimation(animationCurve) {
             self.viewState = viewState
             switch viewState {
             case .success(let desserts):
@@ -109,7 +108,7 @@ public struct DessertsView: View {
     }
     
     private func filterDesserts() {
-        withAnimation(.bouncy(duration: 0.5)) {
+        withAnimation(animationCurve) {
             filtered = searchText.isEmpty ? desserts : desserts.filter {
                 $0.name.localizedCaseInsensitiveContains(searchText)
             }

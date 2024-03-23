@@ -74,6 +74,5 @@ extension DessertDetailView {
         case items
         case recipe
         case links
-        case readMoreButton
     }
 }

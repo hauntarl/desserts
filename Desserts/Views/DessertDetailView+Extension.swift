@@ -8,19 +8,6 @@
 import SwiftUI
 
 extension DessertDetailView {
-    func backButton(_ action: @escaping () -> Void) -> some View {
-        HStack {
-            Button("Back", systemImage: "chevron.left") {
-                action()
-            }
-            .foregroundStyle(.primary)
-            
-            Spacer()
-        }
-        .padding([.bottom, .horizontal])
-        .background(.thinMaterial)
-    }
-    
     func header(for title: String) -> some View {
         Text(title)
             .font(.caption)
@@ -67,7 +54,7 @@ extension DessertDetailView {
         }
     }
     
-    func loadItems(from ingredients: [Ingredient]) -> some View {
+    func loadRecipeItems(from ingredients: [Ingredient]) -> some View {
         ForEach(ingredients, id: \.self) { ingredient in
             HStack {
                 Text(ingredient.name)
@@ -82,13 +69,46 @@ extension DessertDetailView {
     }
     
     @ViewBuilder
+    func loadRecipe(from instructions: [String], proxy: ScrollViewProxy) -> some View {
+        let steps = isRecipeExpanded ? instructions[...] : instructions[0..<1]
+        ForEach(steps, id: \.self) { step in
+            Text(step)
+        }
+        
+        // If there's only one step in the instructions then skip this button
+        if instructions.count > 1 {
+            Button(isRecipeExpanded ? "Close" : "Read more") {
+                withAnimation(animationCurve) {
+                    isRecipeExpanded.toggle()
+                    proxy.scrollTo(SectionId.recipe, anchor: .top)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func recipeLink(for url: URL?) -> some View {
+        // Show WebView button if recipe url is present
+        if let url {
+            Button {
+                recipeURL = url
+            } label: {
+                Label("Recipe", systemImage: "book.pages")
+            }
+            .foregroundStyle(.mint)
+            .colorMultiply(.white)
+        }
+    }
+    
+    @ViewBuilder
     func youtubeLink(for url: URL?) -> some View {
         // Show Link if youtube url is present
         if let url {
             Link(destination: url) {
-                Label("Youtube", systemImage: "rectangle.portrait.and.arrow.forward")
+                Label("Youtube", systemImage: "video.badge.checkmark")
             }
-            .foregroundStyle(.red.opacity(0.7))
+            .foregroundStyle(.red)
+            .colorMultiply(.white)
         }
     }
     
@@ -118,7 +138,6 @@ extension DessertDetailView {
                             .foregroundStyle(.ultraThinMaterial)
                     }
                 }
-                .clipped()
                 .ignoresSafeArea()
                 
                 content()

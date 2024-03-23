@@ -11,8 +11,9 @@ import SwiftUI
  The first view of this application, it displays a background image with a message.
  */
 struct WelcomeView: View {
-    let layouts = [AnyLayout(ZStackLayout()), AnyLayout(GridLayout())]
-    let letters = "Making Fetch Happen...".split(separator: " ").map { word in
+    private let animationCurve: Animation = .easeOut(duration: 0.5)
+    private let layouts = [AnyLayout(ZStackLayout()), AnyLayout(GridLayout())]
+    private let letters = "Making Fetch Happen...".split(separator: " ").map { word in
         word.split(separator: "").map { String($0) }
     }
     
@@ -48,18 +49,11 @@ struct WelcomeView: View {
     }
     
     private func transition() {
-        withAnimation(
-            .bouncy(duration: 0.75)
-            .repeatForever(autoreverses: true)
-            .delay(1)
-        ) {
+        withAnimation(.bouncy(duration: 0.75).repeatForever(autoreverses: true).delay(0.5)) {
             currentLayout = 1
         }
         
-        withAnimation(
-            .easeOut(duration: 0.5)
-            .delay(5)
-        ) {
+        withAnimation(animationCurve.delay(5)) {
             showingWelcomeView = false
         }
     }
