@@ -15,7 +15,7 @@ public struct DessertsView: View {
     private let animationCurve: Animation = .easeOut(duration: 0.5)
     
     @State private var viewModel = ViewModel()
-    @State private var viewState: ViewState<Void> = .loading
+    @State private var viewState: ViewState = .loading
     
     public var body: some View {
         NavigationStack {

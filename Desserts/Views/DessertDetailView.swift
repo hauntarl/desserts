@@ -23,26 +23,25 @@ public struct DessertDetailView: View {
     
     @Environment(\.dismiss) var dismiss
     @State var viewModel = ViewModel()
-    @State var viewState: ViewState<DessertDetail> = .loading
+    @State var viewState: ViewState = .loading
     
-    @State var dessert: DessertDetail?
     @State var isRecipeExpanded = false
     @State var recipeURL: URL?
-    
-    @State var sections = [SectionId]()
     @State var selectedSection = SectionId.info
     
     public var body: some View {
         // ScrollViewReader is used to jump to different sections of the view
         ScrollViewReader { proxy in
-            DessertDetailBackground(url: dessert?.thumbnail) {
+            DessertDetailBackground(url: viewModel.dessert?.thumbnail) {
                 switch viewState {
                 case .loading:
                     ProgressView()
                         .transition(.blurReplace)
-                case .success(let dessert):
-                    details(for: dessert, proxy)
-                        .transition(.move(edge: .trailing))
+                case .success:
+                    if let dessert = viewModel.dessert {
+                        details(for: dessert, proxy)
+                            .transition(.move(edge: .trailing))
+                    }
                 case .failure(let message):
                     ErrorView(
                         image: "RecipeUnavailable",
@@ -57,7 +56,7 @@ public struct DessertDetailView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .safeAreaInset(edge: .bottom) {
-                if !sections.isEmpty {
+                if !viewModel.sections.isEmpty {
                     sectionPicker(proxy)
                         .transition(.move(edge: .bottom))
                 }
@@ -77,16 +76,10 @@ public struct DessertDetailView: View {
             self.viewState = .loading
         }
         
-        let viewState = await viewModel.getDessertDetails(for: id)
+        let newState = await viewModel.getDessertDetails(for: id)
         withAnimation(animationCurve) {
-            self.viewState = viewState
-            switch viewState {
-            case .success(let dessert):
-                self.dessert = dessert
-                self.sections = viewModel.updateSections(for: dessert)
-            default:
-                break
-            }
+            viewState = newState
+            viewModel.updateSections()
         }
     }
     
@@ -100,7 +93,7 @@ public struct DessertDetailView: View {
             .id(SectionId.info)
             
             // If ingredients are missing, skip this section
-            if sections.contains(.items) {
+            if viewModel.sections.contains(.items) {
                 Section {
                     loadRecipeItems(from: dessert.ingredients)
                 } header: {
@@ -110,7 +103,7 @@ public struct DessertDetailView: View {
             }
             
             // If instructions are missing, skip this section
-            if sections.contains(.recipe) {
+            if viewModel.sections.contains(.recipe) {
                 Section {
                     loadRecipe(from: dessert.instructions, proxy: proxy)
                 } header: {
@@ -120,7 +113,7 @@ public struct DessertDetailView: View {
             }
             
             // If both youtube and recipe links are missing, skip this section
-            if sections.contains(.links) {
+            if viewModel.sections.contains(.links) {
                 Section {
                     // Opens the recipe website in a WebView through .sheet() modifier
                     recipeLink(for: dessert.sourceLink)
@@ -139,7 +132,7 @@ public struct DessertDetailView: View {
     private func sectionPicker(_ proxy: ScrollViewProxy) -> some View {
         // Creates a segmented picker view that allows a user to jump between sections.
         Picker("", selection: $selectedSection) {
-            ForEach(sections, id: \.self) { section in
+            ForEach(viewModel.sections, id: \.self) { section in
                 Text(section.rawValue.uppercased())
                     .tag(section)
             }

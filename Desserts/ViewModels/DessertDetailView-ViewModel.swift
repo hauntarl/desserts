@@ -29,18 +29,23 @@ extension DessertDetailView {
             self.networkManager = networkManager
         }
         
+        public var dessert: DessertDetail?
+        public var sections = [SectionId]()
+        
         /**
          Loads the dessert details from [themealdb.com](https://themealdb.com/api/json/v1/1/lookup.php?i=52894) api.
          */
-        public func getDessertDetails(for id: String) async -> ViewState<DessertDetail> {
+        public func getDessertDetails(for id: String) async -> ViewState {
             let urlString = "\(NetworkManager.dessertDetailsURL)?i=\(id)"
             do {
-                let result: DessertDetailResult = try await networkManager.loadData(from: urlString)
+                let data: DessertDetailResult = try await networkManager.loadData(from: urlString)
                 // Verify if required fields are present in the result
-                guard let dessert = result.meals.first, !dessert.name.isEmpty, dessert.thumbnail != .none else {
+                guard let result = data.meals.first, !result.name.isEmpty, result.thumbnail != .none else {
                     return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
                 }
-                return .success(data: dessert)
+                
+                dessert = result
+                return .success
             } catch {
                 return .failure(message: "\(error.localizedDescription)")
             }
@@ -50,8 +55,13 @@ extension DessertDetailView {
          Based on the retrieved dessert details, `updateSections()` calculates total sections that will
          have non-nil data in the List view.
          */
-        public func updateSections(for dessert: DessertDetail) -> [SectionId] {
-            var sections: [SectionId] = [.info]
+        public func updateSections() {
+            guard let dessert else {
+                sections.removeAll()
+                return
+            }
+            
+            sections = [.info]
             if !dessert.ingredients.isEmpty {
                 sections.append(.items)
             }
@@ -61,7 +71,6 @@ extension DessertDetailView {
             if dessert.youtubeLink != nil || dessert.sourceLink != nil {
                 sections.append(.links)
             }
-            return sections
         }
     }
     

@@ -38,10 +38,10 @@ Take Home Exercise from **[Fetch](https://fetch.com/)**: A native iOS app that a
 ### ViewModels
 
 - Filtered responses that do not have meaningful values for necessary attributes such as `id, name, thumbnail`.
-- Designed a generic `ViewState` enum with associated values to keep track of the current state of the API request/response. i.e. `.loading, .success, .failure`.
+- Designed a `ViewState` enum with associated values to keep track of the current state of the API request/response. i.e. `.loading, .success, .failure`.
 - Created test cases utilizing `MockNetworkManager` to cover all the edge cases for the API response.
 
-> **NOTE:** `WelcomeView` doesn't serve any other purpose than displaying a welcome message to the user.
+> **NOTE:** I've used `@Observable` macro to implement conformance of the `Observable` protocol for my view models.
 
 ### Views
 

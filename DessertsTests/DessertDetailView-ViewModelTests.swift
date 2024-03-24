@@ -45,8 +45,10 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         let viewState = await dessertDetailViewModel.getDessertDetails(for: "52776")
         
         switch viewState {
-        case .success(let got):
-            XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
+        case .success:
+            let got = dessertDetailViewModel.dessert
+            XCTAssertNotNil(got)
+            XCTAssertEqual(expected, got!, "Parsed object does not match expected object.")
         default:
             XCTFail("Expected success view state")
         }
@@ -103,8 +105,9 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         let viewState = await dessertDetailViewModel.getDessertDetails(for: "52776")
         
         switch viewState {
-        case .success(let dessert):
-            let got = dessertDetailViewModel.updateSections(for: dessert)
+        case .success:
+            dessertDetailViewModel.updateSections()
+            let got = dessertDetailViewModel.sections
             XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
         default:
             XCTFail("Expected success view state")
@@ -119,8 +122,9 @@ final class DessertDetailView_ViewModelTests: XCTestCase {
         let viewState = await dessertDetailViewModel.getDessertDetails(for: "52776")
         
         switch viewState {
-        case .success(let dessert):
-            let got = dessertDetailViewModel.updateSections(for: dessert)
+        case .success:
+            dessertDetailViewModel.updateSections()
+            let got = dessertDetailViewModel.sections
             XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
         default:
             XCTFail("Expected success view state")

@@ -38,12 +38,12 @@ extension DessertsView {
          Loads the list of desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert) api.
          Sorts them in ascending order based on the `name` key.
          */
-        public func getDesserts() async -> ViewState<Void> {
+        public func getDesserts() async -> ViewState {
             let urlString = NetworkManager.dessertItemsURL
             do {
-                let result: DessertItemResult = try await networkManager.loadData(from: urlString)
+                let data: DessertItemResult = try await networkManager.loadData(from: urlString)
                 // Remove desserts that have missing id, name, or thumbnail.
-                results = result.meals
+                results = data.meals
                     .filter { !$0.id.isEmpty && !$0.name.isEmpty && $0.thumbnail != .none}
                     .sorted { $0.name < $1.name }
                 
@@ -52,7 +52,7 @@ extension DessertsView {
                 }
                 
                 filterDesserts()
-                return .success(data: ())
+                return .success
             } catch {
                 return .failure(message: "\(error.localizedDescription)")
             }
