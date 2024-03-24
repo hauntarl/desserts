@@ -56,9 +56,9 @@ public struct DessertsView: View {
     }
     
     private var dessertItems: some View {
-        List(viewModel.desserts) { item in
-            NavigationLink(value: item.id) {
-                itemLabel(for: item)
+        List(viewModel.desserts) { dessert in
+            NavigationLink(value: dessert.id) {
+                label(for: dessert)
             }
         }
         .searchable(
@@ -80,7 +80,7 @@ public struct DessertsView: View {
         }
     }
     
-    private func itemLabel(for item: DessertItem) -> some View {
+    private func label(for item: DessertItem) -> some View {
         Label {
             Text(item.name)
         } icon: {

@@ -19,7 +19,7 @@ extension DessertDetailView {
             }
     }
     
-    func image(from url: URL?) -> some View {
+    func image(for url: URL?) -> some View {
         NetworkImage(url: url) { image in
             image
                 .resizable()
@@ -40,21 +40,22 @@ extension DessertDetailView {
                 .scaledToFit()
                 .hidden()
                 .overlay {
-                    Rectangle().foregroundStyle(.thinMaterial)
+                    Rectangle()
+                        .foregroundStyle(.thinMaterial)
                 }
         }
         .clipShape(.rect(cornerRadius: 10))
     }
     
     @ViewBuilder
-    func tags(from formattedTags: String) -> some View {
+    func buildTags(from formattedTags: String) -> some View {
         if !formattedTags.isEmpty {
             Text(formattedTags)
                 .font(.subheadline)
         }
     }
     
-    func loadRecipeItems(from ingredients: [Ingredient]) -> some View {
+    func buildRecipeItems(from ingredients: [Ingredient]) -> some View {
         ForEach(ingredients, id: \.self) { ingredient in
             HStack {
                 Text(ingredient.name)
@@ -69,7 +70,7 @@ extension DessertDetailView {
     }
     
     @ViewBuilder
-    func loadRecipe(from instructions: [String], proxy: ScrollViewProxy) -> some View {
+    func buildRecipe(from instructions: [String], proxy: ScrollViewProxy) -> some View {
         let steps = isRecipeExpanded ? instructions[...] : instructions[0..<1]
         ForEach(steps, id: \.self) { step in
             Text(step)
@@ -102,7 +103,7 @@ extension DessertDetailView {
     
     @ViewBuilder
     func youtubeLink(for url: URL?) -> some View {
-        // Show Link if youtube url is present
+        // Show Youtube link if youtube url is present
         if let url {
             Link(destination: url) {
                 Label("Youtube", systemImage: "video.badge.checkmark")
@@ -139,6 +140,7 @@ extension DessertDetailView {
                     }
                 }
                 .ignoresSafeArea()
+                .animation(.easeOut(duration: 0.5), value: url)
                 .zIndex(1)
                 
                 content()

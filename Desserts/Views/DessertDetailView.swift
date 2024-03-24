@@ -87,15 +87,15 @@ public struct DessertDetailView: View {
         List {
             Section {
                 Text(dessert.name).bold()
-                image(from: dessert.thumbnail)
-                tags(from: dessert.formattedTags)
+                image(for: dessert.thumbnail)
+                buildTags(from: dessert.formattedTags)
             }
             .id(SectionId.info)
             
             // If ingredients are missing, skip this section
             if viewModel.sections.contains(.items) {
                 Section {
-                    loadRecipeItems(from: dessert.ingredients)
+                    buildRecipeItems(from: dessert.ingredients)
                 } header: {
                     header(for: SectionId.items.rawValue)
                 }
@@ -105,7 +105,7 @@ public struct DessertDetailView: View {
             // If instructions are missing, skip this section
             if viewModel.sections.contains(.recipe) {
                 Section {
-                    loadRecipe(from: dessert.instructions, proxy: proxy)
+                    buildRecipe(from: dessert.instructions, proxy: proxy)
                 } header: {
                     header(for: SectionId.recipe.rawValue)
                 }
