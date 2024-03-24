@@ -29,6 +29,8 @@ extension DessertsView {
             self.networkManager = networkManager
         }
         
+        var retryCount = 0
+        
         /**
          Loads the list of desserts from [themealdb.com](https://themealdb.com/api/json/v1/1/filter.php?c=Dessert) api.
          Sorts them in ascending order based on the `name` key.
@@ -45,6 +47,11 @@ extension DessertsView {
                 guard !desserts.isEmpty else {
                     return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
                 }
+                if retryCount < 3 {
+                    retryCount += 1
+                    return .failure(message: "**[themealdb](\(urlString))** returned either empty or invalid data.")
+                }
+                retryCount = 0
                 return .success(data: desserts)
             } catch {
                 return .failure(message: "\(error.localizedDescription)")

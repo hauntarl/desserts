@@ -65,6 +65,9 @@ public struct DessertsView: View {
             text: $searchText,
             prompt: "What are you craving for?"
         )  // Filter results based on user's search query
+        .refreshable {
+            await getDesserts()
+        }  // Pull to refresh
         .scrollContentBackground(.hidden)
         .onChange(of: searchText) {
             filterDesserts()

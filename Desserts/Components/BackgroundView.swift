@@ -31,8 +31,10 @@ struct BackgroundView<Content: View>: View {
                     }
             }
             .ignoresSafeArea()
+            .zIndex(1)
             
             content()
+                .zIndex(2)
         }
     }
 }
