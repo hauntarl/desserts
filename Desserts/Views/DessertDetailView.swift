@@ -39,7 +39,7 @@ public struct DessertDetailView: View {
                 switch viewState {
                 case .loading:
                     ProgressView()
-                        .transition(.opacity)
+                        .transition(.blurReplace)
                 case .success(let dessert):
                     details(for: dessert, proxy)
                         .transition(.move(edge: .trailing))
@@ -51,7 +51,7 @@ public struct DessertDetailView: View {
                     ) {
                         await getDessertDetails()
                     }
-                    .transition(.opacity)
+                    .transition(.blurReplace)
                 }
             }
             .navigationTitle("")

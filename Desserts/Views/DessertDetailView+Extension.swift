@@ -139,8 +139,10 @@ extension DessertDetailView {
                     }
                 }
                 .ignoresSafeArea()
+                .zIndex(1)
                 
                 content()
+                    .zIndex(2)
             }
         }
     }

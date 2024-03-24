@@ -27,10 +27,13 @@ public struct DessertsView: View {
                 switch viewState {
                 case .loading:
                     ProgressView()
-                        .transition(.opacity)
+                        .transition(.blurReplace)
                 case .success:
                     dessertItems
-                        .transition(.move(edge: .trailing))
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .move(edge: .leading)
+                        ))
                 case .failure(let message):
                     ErrorView(
                         image: "DessertsUnavailable",
@@ -42,7 +45,7 @@ public struct DessertsView: View {
                         }
                         await getDesserts()
                     }  // Try reloading desserts when user clicks Tap to retry
-                    .transition(.opacity)
+                    .transition(.blurReplace)
                 }
             }
             .navigationTitle("Desserts")
