@@ -15,11 +15,7 @@ public struct DessertsView: View {
     private let animationCurve: Animation = .easeOut(duration: 0.5)
     
     @State private var viewModel = ViewModel()
-    @State private var viewState: ViewState<[DessertItem]> = .loading
-    
-    @State private var desserts = [DessertItem]()  // Stores api results
-    @State private var filtered = [DessertItem]()  // Provides filtered view
-    @State private var searchText = ""
+    @State private var viewState: ViewState<Void> = .loading
     
     public var body: some View {
         NavigationStack {
@@ -35,6 +31,7 @@ public struct DessertsView: View {
                             removal: .move(edge: .leading)
                         ))
                 case .failure(let message):
+                    // Try reloading desserts when user clicks Tap to retry
                     ErrorView(
                         image: "DessertsUnavailable",
                         title: "No Doughnuts :(",
@@ -44,7 +41,7 @@ public struct DessertsView: View {
                             viewState = .loading
                         }
                         await getDesserts()
-                    }  // Try reloading desserts when user clicks Tap to retry
+                    }
                     .transition(.blurReplace)
                 }
             }
@@ -59,21 +56,23 @@ public struct DessertsView: View {
     }
     
     private var dessertItems: some View {
-        List(filtered) { item in
+        List(viewModel.desserts) { item in
             NavigationLink(value: item.id) {
                 itemLabel(for: item)
             }
         }
         .searchable(
-            text: $searchText,
+            text: $viewModel.searchText,
             prompt: "What are you craving for?"
         )  // Filter results based on user's search query
         .refreshable {
             await getDesserts()
         }  // Pull to refresh
         .scrollContentBackground(.hidden)
-        .onChange(of: searchText) {
-            filterDesserts()
+        .onChange(of: viewModel.searchText) {
+            withAnimation(animationCurve) {
+                viewModel.filterDesserts()
+            }
         }
         .navigationDestination(for: String.self) { id in
             // Push DessertsDetail view
@@ -99,25 +98,9 @@ public struct DessertsView: View {
     }
     
     private func getDesserts() async {
-        let viewState = await viewModel.getDesserts()
-        
+        let newState = await viewModel.getDesserts()
         withAnimation(animationCurve) {
-            self.viewState = viewState
-            switch viewState {
-            case .success(let desserts):
-                self.desserts = desserts
-                self.filtered = desserts
-            default:
-                break
-            }
-        }
-    }
-    
-    private func filterDesserts() {
-        withAnimation(animationCurve) {
-            filtered = searchText.isEmpty ? desserts : desserts.filter {
-                $0.name.localizedCaseInsensitiveContains(searchText)
-            }
+            viewState = newState
         }
     }
 }

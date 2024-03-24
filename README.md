@@ -41,6 +41,8 @@ Take Home Exercise from **[Fetch](https://fetch.com/)**: A native iOS app that a
 - Designed a generic `ViewState` enum with associated values to keep track of the current state of the API request/response. i.e. `.loading, .success, .failure`.
 - Created test cases utilizing `MockNetworkManager` to cover all the edge cases for the API response.
 
+> **NOTE:** `WelcomeView` doesn't serve any other purpose than displaying a welcome message to the user.
+
 ### Views
 
 - `WelcomeView`

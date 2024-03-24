@@ -36,7 +36,8 @@ final class DessertsView_ViewModelTests: XCTestCase {
         let viewState = await dessertsViewModel.getDesserts()
         
         switch viewState {
-        case .success(let got):
+        case .success:
+            let got = dessertsViewModel.desserts
             XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
         default:
             XCTFail("Expected success view state")
@@ -82,6 +83,44 @@ final class DessertsView_ViewModelTests: XCTestCase {
             return
         default:
             XCTFail("Expected failure view state")
+        }
+    }
+    
+    func testFilterDessertsSuccess() async {
+        let expected: [DessertItem] = [
+            .init(
+                id: "53049",
+                name: "Apam balik",
+                thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg")
+            )
+        ]
+        
+        networkingMock.result = .success(DessertItemTests.dessertItemResultJSON)
+        let viewState = await dessertsViewModel.getDesserts()
+        
+        switch viewState {
+        case .success:
+            dessertsViewModel.searchText = "Apam"
+            dessertsViewModel.filterDesserts()
+            let got = dessertsViewModel.desserts
+            XCTAssertEqual(expected, got, "Parsed object does not match expected object.")
+        default:
+            XCTFail("Expected success view state")
+        }
+    }
+    
+    func testFilterDessertsEmpty() async {
+        networkingMock.result = .success(DessertItemTests.dessertItemResultJSON)
+        let viewState = await dessertsViewModel.getDesserts()
+        
+        switch viewState {
+        case .success:
+            dessertsViewModel.searchText = "Not a dessert"
+            dessertsViewModel.filterDesserts()
+            let got = dessertsViewModel.desserts
+            XCTAssert(got.isEmpty, "Expected filtered desserts list to be empty.")
+        default:
+            XCTFail("Expected success view state")
         }
     }
 
